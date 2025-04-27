@@ -1,0 +1,8 @@
+{
+  "name": "databricks_pipeline",
+  "engineVersion": "v0.18.3",
+  "sdk": {
+    "source": "python"
+  },
+  "source": "dagger_and_dbricks_pipeline"
+}

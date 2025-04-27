@@ -1,0 +1,11 @@
+bundle:
+  name: dagger_dbricks
+  uuid: cea3d594-6724-4f56-bf36-a4bca0991db3
+
+include:
+  - resources/*.yml
+
+targets:
+  dev:
+    mode: development
+    default: true
