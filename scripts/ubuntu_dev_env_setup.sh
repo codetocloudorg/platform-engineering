@@ -136,6 +136,16 @@ install_kubectl() {
 # K9s
 install_k9s() {
     echo -e "${YELLOW}Installing K9s...${RESET}"
+    # Find the latest K9s Debian package URL from GitHub releases
+    latest_k9s=$(curl -s https://api.github.com/repos/derailed/k9s/releases/latest | grep "browser_download_url.*amd64.deb" | cut -d '"' -f 4)
+    # Download the latest K9s .deb package
+    wget "$latest_k9s"
+    # Install K9s using the .deb package
+    sudo apt install ./"$(basename "$latest_k9s")"
+    # Verify K9s installation
+    k9s version || echo -e "${RED}K9s installation verification failed!${RESET}"
+    # Remove Installation "junk"
+    rm -f "$(basename "$latest_k9s")"
 
 }
 
