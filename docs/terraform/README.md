@@ -4,7 +4,7 @@ The goal of this `README` and accompanying code is demonstrate how to automate T
 **Note: You could easily modify the Terraform script to deploy infrastructure across any cloud provider. For the purpose of this example, I am using Azure.**
 
 ##### Future Items
-- Example using OpenTofu as IaC tool
+- Example using OpenTofu as IaC-tool
 - Use of security scanning tools overtop CI/CD
 - Example of policy enforcement around IaC within CI/CD
 
