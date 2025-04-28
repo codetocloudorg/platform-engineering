@@ -94,7 +94,7 @@ install_terraform() {
 # OpenTofu
 install_opentofu() {
     echo -e "${YELLOW}Installing OpenTofu...${RESET}"
-    snap install --classic opentofu
+    sudo snap install --classic opentofu
     # Verify OpenTofu has installed
     tofu version || echo -e "${RED}OpenTofu installation verification failed!${RESET}"
 }
