@@ -191,20 +191,23 @@ configure_git() {
     echo "Enter your primary email for git:"
     read git_email
     git config --global user.email "$git_email"
-		
+
     echo "Enter your name for git:"
     read git_name
     git config --global user.name "$git_name"
-    
-    echo "Generating SSH key for GitHub..."
-    ssh-keygen -t rsa -b 4096 -C "$git_email"
-    eval "$(ssh-agent -s)"
-    ssh-add ~/.ssh/id_rsa
-    
+
+    if [[ ! -f ~/.ssh/id_rsa ]]; then
+        echo "Generating SSH key for GitHub..."
+        ssh-keygen -t rsa -b 4096 -C "$git_email"
+        eval "$(ssh-agent -s)"
+        ssh-add ~/.ssh/id_rsa
+    fi
+
     # Refer to Markdown Instructions
     echo "Copy your SSH key and add it to GitHub:"
     echo "cat ~/.ssh/id_rsa.pub"
 }
+
 		
 # Validate networking
 validate_network() {
