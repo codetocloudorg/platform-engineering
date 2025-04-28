@@ -68,7 +68,7 @@ install_google_cloud_sdk() {
     echo -e "${YELLOW}Installing Google Cloud SDK...${RESET}"
     curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
     echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
-    sudo apt update && sudo apt install google-cloud-cli
+    sudo apt update && sudo apt -y install google-cloud-cli
     # Verify Google Cloud SDK has installed
     gcloud version || echo -e "${RED}Google Cloud SDK installation verification failed!${RESET}"
 }
@@ -87,7 +87,7 @@ install_terraform() {
     https://apt.releases.hashicorp.com $(lsb_release -cs) main" | \
     sudo tee /etc/apt/sources.list.d/hashicorp.list
 
-    sudo apt update && sudo apt install terraform
+    sudo apt update && sudo apt -y install terraform
     # Verify Terraform has installed
     terraform version || echo -e "${RED}Terraform installation verification failed!${RESET}"
 }
