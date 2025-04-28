@@ -1,0 +1,8 @@
+{
+  "name": "agent_database_example",
+  "engineVersion": "v0.18.5",
+  "sdk": {
+    "source": "python"
+  },
+  "source": "ai_database_agent_dagger_pipeline"
+}

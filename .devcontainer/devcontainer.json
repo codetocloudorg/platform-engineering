@@ -1,0 +1,36 @@
+{
+	"name": "Python 3 & PostgreSQL",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "app",
+    "workspaceFolder": "/workspace",
+    "forwardPorts": [5432],
+    "customizations": {
+    "vscode": {
+        "extensions": [
+        "ms-python.python",
+        "mtxr.sqltools",
+        "mtxr.sqltools-driver-pg",
+        "ms-azuretools.vscode-docker"
+        ],
+        "settings": {
+        "sqltools.connections": [
+            {
+            "name": "Container database",
+            "driver": "PostgreSQL",
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "database": "app",
+            "username": "app_user",
+            "password": "app_password"
+            }
+        ],
+        "python.pythonPath": "/usr/local/bin/python"
+        }
+    }
+    },
+	"features": {
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {}
+	},
+	"postCreateCommand": "curl -fsSL https://dl.dagger.io/dagger/install.sh | BIN_DIR=$HOME/.local/bin sh && pg_restore -U postgres -h 127.0.0.1 -d postgres seed_data/dvdrental.tar"
+}
