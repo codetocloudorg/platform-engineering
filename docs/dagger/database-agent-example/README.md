@@ -1,6 +1,6 @@
 ### How to Run This using Codespaces
-1. Fork repo
-2. From forked repo, select `code -> codespaces -> create`
+1. Clone or Fork (for outside org users) repo
+2. From cloned/forked repo, select `code -> codespaces -> create`
 This will use the existing `devcontainer` configuration to create/install:
 - python
 - postgresql
