@@ -179,7 +179,7 @@ install_vscode_extensions() {
     code --install-extension hashicorp.terraform
     code --install-extension ms-kubernetes-tools.vscode-kubernetes-tools
     code --install-extension msazurermtools.azurerm-vscode-tools
-    code --install-extension bicep.bicep
+    code --install-extension ms-azuretools.vscode-bicep
     code --install-extension eamodio.gitlens
     code --install-extension streetsidesoftware.code-spell-checker
 }
