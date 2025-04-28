@@ -118,7 +118,7 @@ class AgentExample:
         )
 
         # Comment the LLM's last reply on a GitHub pull request
-        await self.comment_on_pr("codetocloudinc/platform-engineering", await analyze_results.last_reply(), github_token)
+        await self.comment_on_pr("codetocloudorg/platform-engineering", await analyze_results.last_reply(), github_token)
 
         # Return the analyzed result
         return await analyze_results.last_reply()

@@ -12,13 +12,13 @@ In the below example, we will create a Dagger pipeline that will deploy some Ter
 
 ## 🔨 Implementation
 
-The below steps were taken to implement a CI/CD pipeline in Dagger that deploys Terraform. All the code for the below can be found [here](https://github.com/codetocloudinc/platform-engineering/tree/main/docs/dagger/terraform-example)
+The below steps were taken to implement a CI/CD pipeline in Dagger that deploys Terraform. All the code for the below can be found [here](./terraform_dagger_pipeine/)
 
 Make sure you have the repo cloned and you are in the `docs\dagger\terraform-example` directory:
 
 ```bash
 # Clone the repository from GitHub
-git clone https://github.com/codetocloudinc/platform-engineering.git
+git clone https://github.com/codetocloudorg/platform-engineering.git
 
 # Change directory to the Terraform Dagger pipeline documentation folder
 cd ./docs/dagger/terraform-example

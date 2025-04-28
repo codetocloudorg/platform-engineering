@@ -20,13 +20,13 @@ Lets explore how Dagger can help build AI agents in a platform engineering conte
 
 ## 🔨 Implementation
 
-The below steps were taken to leverage Daggers LLM integration capabilities. All the code for the below can be found [here](https://github.com/codetocloudinc/platform-engineering/tree/main/docs/dagger/agent-example/ai_agent_dagger_pipeline).
+The below steps were taken to leverage Daggers LLM integration capabilities. All the code for the below can be found [here](./ai_agent_dagger_pipeline/).
 
 Make sure you have the repo cloned and you are in the `docs\dagger\agent-example` directory:
 
 ```bash
 # Clone the repository from GitHub
-git clone https://github.com/codetocloudinc/platform-engineering.git
+git clone https://github.com/codetocloudorg/platform-engineering.git
 
 # Change directory to the AI Agent Dagger pipeline documentation folder
 cd ./docs/dagger/ai_agent_dagger_pipeline
@@ -86,7 +86,7 @@ For example, we have set our container to public access with anonymous read acce
 
 ### Step 2: Initialize Dagger for our AI Agent 🤖🗡️
 
-Similar to the first [real-world example](https://github.com/codetocloudinc/platform-engineering/tree/main/docs/dagger/terraform-example/README.md) where we Daggerized a Terraform file, we have to do the same here to get going.
+Similar to the first [real-world example](../terraform-example/README.md) where we Daggerized a Terraform file, we have to do the same here to get going.
 
 The only difference here is we will login to the **Dagger Cloud** which provides us with a a web interface to visualize each step of your workflow, drill down to detailed logs, understand how long operations took to run, and whether operations were cached.
 
@@ -236,7 +236,7 @@ class AgentExample:
         )
 
         # Comment the LLM's last reply on a GitHub pull request
-        await self.comment_on_pr("codetocloudinc/platform-engineering", await analyze_results.last_reply(), github_token)
+        await self.comment_on_pr("codetocloudorg/platform-engineering", await analyze_results.last_reply(), github_token)
 
         # Return the analyzed result
         return await analyze_results.last_reply()
