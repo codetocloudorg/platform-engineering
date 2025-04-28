@@ -32,11 +32,13 @@ install_dev_tools() {
         software-properties-common
 }
 
-# Install VS Code (via Flatpak)
+# Install VS Code (via Snap)
 install_vscode() {
-    echo -e "${YELLOW}Installing Azure CLI...${RESET}"
-    flatpak install -y flathub com.visualstudio.code
-    flatpak info com.visualstudio.code || echo -e "${RED}VS Code installation verification failed!${RESET}"
+    echo -e "${YELLOW}Installing VS Code (via Snap) ${RESET}"
+    #flatpak install -y flathub com.visualstudio.code
+    #flatpak info com.visualstudio.code || echo -e "${RED}VS Code installation verification failed!${RESET}"
+    sudo snap install --classic code
+    code --version || echo -e "${RED}VS Code installation failed!${RESET}"
 }
 
 # Install Cloud CLIs
