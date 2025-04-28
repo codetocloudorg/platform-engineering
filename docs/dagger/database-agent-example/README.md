@@ -22,13 +22,13 @@ Inside the devcontainer you can run the following to check for correct setup:
 `psql -h localhost -U postgres -d postgres` -> this start interactive psql `\q` to exit. Run `\dt` to see that tables are setup. Run `select * from staff;` to see that tables are seeded. 
 ![alt text](image-1.png)
 
-If using existin code then do not run below command and proceed to step 4. Otherwise run this command and modify `main.py` and `pyproject.toml` 
+If using existing code then do not run below command and proceed to step 4. Otherwise run this command and modify `main.py` and `pyproject.toml` 
 
 3. Run `dagger init --sdk=python --name=agent_database_example --source=./ai_database_agent_dagger_pipeline` to scaffold new project
 
 4. duplicate `.env.sample` and rename as `.env` and input your OpenAI API key
 
-5. start dagger shell `dagger`
+5. `cd` into this directory, start dagger shell `dagger`
 
 6. run `ask-agent tcp://localhost:5432 "staff" "what are the staff names?"`, you should see output like below:
 ![alt text](image.png)
