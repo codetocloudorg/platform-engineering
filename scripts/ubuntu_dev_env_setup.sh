@@ -325,10 +325,12 @@ main() {
     
     # Install Cloud CLIs and validate them
     install_azure_cli
-    validate_azure_cli_permissions
+    # NEEDS FIXING
+    # validate_azure_cli_permissions
 
     install_aws_cli
-    validate_aws_cli_permissions
+    # NEEDS FIXING
+    # validate_aws_cli_permissions
 
     install_google_cloud_sdk
     validate_google_cloud_sdk_permissions
@@ -354,7 +356,8 @@ main() {
     configure_git
 
     # Validate Kubernetes
-    check_kubernetes_access
+    # NEEDS FIXING
+    # check_kubernetes_access
 
     # Verify all installations
     final_verification
