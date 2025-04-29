@@ -1,12 +1,11 @@
 # CNDI – Self-Hosted Infrastructure Services in minutes
 
-**CNDI** (Cloud-Native Deployment Infrastructure) is a completely free and
-open-source framework for deploying and managing cloud-native applications on
-Kubernetes in any environment. It provides a holistic approach to cluster
-management, encompassing infrastructure provisioning, application deployment,
-GitOps automation, and Day-2 operations. In short, CNDI gives you the
-**ease-of-use of a PaaS** while you retain full control of your stack in your
-own cloud with no license fees. 🚀
+**CNDI** is a completely free and open-source framework for deploying and
+managing cloud-native applications on Kubernetes in any environment. It provides
+a holistic approach to cluster management, encompassing infrastructure
+provisioning, application deployment, GitOps automation, and Day-2 operations.
+In short, CNDI gives you the **ease-of-use of a PaaS** while you retain full
+control of your stack in your own cloud with no license fees. 🚀
 
 Developers can use CNDI to quickly provision **production-ready** Kubernetes
 clusters _and_ deploy popular services on them (like databases, analytics, or
@@ -41,10 +40,10 @@ experiment with our browser-based wizard at
 
 ## Overview & Use Cases
 
-**What is CNDI?** CNDI stands for **Cloud-Native Deployment Infrastructure** and
-is maintained by the Polyseam team alongside Open-Source contributors. It
-automates the creation of Kubernetes-based platforms on every modern
-environment.
+**What is CNDI?** CNDI stands for **Cloud-Native Deployment Interface** and is a
+cloud-native framework maintained by the Polyseam team alongside Open-Source
+contributors. It automates the creation of Kubernetes-based infrastructure
+platforms with unified support for every modern K8s environment.
 
 With CNDI you can automatically:
 
@@ -68,7 +67,7 @@ With CNDI you can automatically:
 one workflow. Instead of managing Terraform for infra and Helm charts for apps
 separately, you describe your desired state in one **`cndi_config.yaml`** file.
 The `cndi` CLI then generates the necessary Terraform and Kubernetes manifests
-for your target deployment environment for you, behind the scenes.
+for your target deployment environment for you.
 
 ### Key Features & Benefits
 
