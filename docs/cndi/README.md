@@ -11,8 +11,9 @@ own cloud with no license fees. 🚀
 Developers can use CNDI to quickly provision **production-ready** Kubernetes
 clusters _and_ deploy popular services on them (like databases, analytics, or
 CI/CD tools) using a single unified configuration. Everything is managed as code
-in a Git repository for auditability and reproducibility. You can even create
-your own custom Templates, turning CNDI into a platform engineering powerhouse.
+in a single Git repository for auditability and reproducibility. You can even
+create your own custom Templates, turning CNDI into a platform engineering
+powerhouse.
 
 If you like what you see, please check us out at
 [https://cndi.dev](https://cndi.dev) and
@@ -20,18 +21,38 @@ If you like what you see, please check us out at
 
 Let’s dive into what CNDI has to offer.
 
-## Overview of CNDI
+## Why CNDI Deserves Your Attention
+
+With complete end-to-end control of your infrastructure, CNDI gives you the ease
+of use you expect from a PaaS, coupled with the control, flexibility, and cost
+savings of self-hosting.
+
+- **🌟 Single Source of Truth** – All infra & apps in one Git repo with full
+  auditability.
+- **🌟 Production-Ready Out-of-the-Box** – Secure, monitored, GitOps flow from
+  day one.
+- **🌟 Flexibility & Control** – Sensible defaults and simple customization.
+- **🌟 Entirely Free & Open Source** – Community maintained framework and
+  Templates.
+
+To get a sense of what CNDI and it's Templates can do for you, you can
+experiment with our browser-based wizard at
+[cndi.dev/configurator](https://cndi.dev/configurator)!
+
+## Overview & Use Cases
 
 **What is CNDI?** CNDI stands for **Cloud-Native Deployment Infrastructure** and
-is maintained by the Polyseam team. It automates the creation of
-Kubernetes-based platforms all modern environments.
+is maintained by the Polyseam team alongside Open-Source contributors. It
+automates the creation of Kubernetes-based platforms on every modern
+environment.
 
 With CNDI you can automatically:
 
 - **Provision Infrastructure**: Set up cloud resources (VMs, networking, etc.)
   on AWS, GCP, Azure, or even locally, all defined via code.
-- **Bootstrap a Kubernetes Cluster**: Install a Kubernetes distribution on those
-  resources complete with essential add-ons (ingress, cert-manager, etc.).
+- **Bootstrap your Kubernetes Cluster and Components**: Install a Kubernetes
+  distribution on those resources complete with essential add-ons (ingress,
+  cert-manager, etc.).
 - **Deploy Applications via GitOps**: Integrate ArgoCD for GitOps so that your
   application manifests (Helm charts, YAMLs) are continuously deployed to the
   cluster from your git repo.
@@ -46,10 +67,10 @@ With CNDI you can automatically:
 **Key Idea:** CNDI consolidates **Infrastructure-as-Code** and **GitOps** into
 one workflow. Instead of managing Terraform for infra and Helm charts for apps
 separately, you describe your desired state in one **`cndi_config.yaml`** file.
-The CNDI CLI then generates the necessary Terraform and Kubernetes manifests
-behind the scenes.
+The `cndi` CLI then generates the necessary Terraform and Kubernetes manifests
+for your target deployment environment for you, behind the scenes.
 
-## Key Features and Benefits
+### Key Features & Benefits
 
 - **🟢 Open Source & Community-Driven** – Apache-2.0 license, welcomes
   contributions, no proprietary lock-in.
@@ -61,6 +82,8 @@ behind the scenes.
   via `.env` and sealed-secrets, cert-manager for TLS.
 - **🚀 Quick Interactive Setup** – CLI prompts guide you through project
   creation, even without deep Terraform/K8s knowledge.
+- **🖥️ Online Configurator** - You can even play with configuring Templates
+  online with the [cndi configurator](https://cndi.dev/configurator).
 - **🤖 GitHub Integration** – Auto-create GitHub repo and secrets, includes a
   GitHub Actions workflow for deployments (`cndi-run.yaml`) and one for checks
   (`cndi_onpull.yaml`).
@@ -71,9 +94,39 @@ behind the scenes.
 - **💠 Ejectability & Customization** – Generated Terraform and YAMLs are in
   your repo; you can extend or “eject” at any time.
 - **🌐 Multi-Cloud & Hybrid Support** – AWS, GCP, Azure, and local `dev` mode,
-  all with the same CLI and templates.
+  all with the same CLI and Templates.
 - **💰 Cost Efficiency** – Avoid managed-service markups; pay only for raw cloud
   resources. `cndi destroy` tears everything down when not needed.
+
+### Templates
+
+CNDI comes with a variety of **pre-built templates** for common use cases. These
+Templates are designed to be production-ready and can be easily customized to
+fit your needs. Each Template includes a complete stack of infrastructure,
+Kubernetes cluster, and applications, all defined in a single `cndi_config.yaml`
+file. This allows you to quickly spin up a fully functional environment with
+minimal effort, and when you need to make changes, you can do so by simply
+editing that same file and running `cndi overwrite`.
+
+Popular Templates:
+
+| Template                                                | Use Case                        |
+| ------------------------------------------------------- | ------------------------------- |
+| [Airflow](https://cndi.dev/templates/airflow)           | Data pipelines & ETL            |
+| [Kafka](https://cndi.dev/templates/kafka)               | Event streaming                 |
+| [PostgreSQL](https://cndi.dev/templates/postgres)       | SQL databases                   |
+| [MySQL](https://cndi.dev/templates/mysql)               | SQL databases                   |
+| [MongoDB](https://cndi.dev/templates/mongodb)           | NoSQL database                  |
+| [Redis](https://cndi.dev/templates/redis)               | Cache / in-memory store         |
+| [WordPress](https://cndi.dev/templates/wordpress)       | CMS & web apps                  |
+| [Hop](https://cndi.dev/templates/hop)                   | Visual data integration         |
+| [GPU Operator](https://cndi.dev/templates/gpu-operator) | GPU workloads / ML              |
+| [Functions](https://cndi.dev/templates/fns)             | Serverless functions            |
+| [Neo4j](https://cndi.dev/templates/neo4j)               | Graph database                  |
+| [MS SQL Server](https://cndi.dev/templates/mssqlserver) | Containerized SQL Server on K8s |
+
+- Don't forget **Custom Templates** are easy to create and share with the
+  community!
 
 ## How CNDI Works (Architecture)
 
@@ -188,57 +241,6 @@ Deploy **Airflow** on your cloud in minutes:
    - Monitor via Grafana & Loki
    - Scale or add apps by editing config → `cndi overwrite` → push
    - Tear down with `cndi destroy`
-
-## CNDI Templates and Use Cases
-
-CNDI comes with a variety of **pre-built templates** for common use cases. These
-Templates are designed to be production-ready and can be easily customized to
-fit your needs. Each template includes a complete stack of infrastructure,
-Kubernetes cluster, and applications, all defined in a single `cndi_config.yaml`
-file. This allows you to quickly spin up a fully functional environment with
-minimal effort, and when you need to make changes, you can do so by simply
-editing that same file and running `cndi overwrite`.
-
-Popular Templates:
-
-| Template                                                | Use Case                        |
-| ------------------------------------------------------- | ------------------------------- |
-| [Airflow](https://cndi.dev/templates/airflow)           | Data pipelines & ETL            |
-| [Kafka](https://cndi.dev/templates/kafka)               | Event streaming                 |
-| [PostgreSQL](https://cndi.dev/templates/postgres)       | SQL databases                   |
-| [MySQL](https://cndi.dev/templates/mysql)               | SQL databases                   |
-| [MongoDB](https://cndi.dev/templates/mongodb)           | NoSQL database                  |
-| [Redis](https://cndi.dev/templates/redis)               | Cache / in-memory store         |
-| [WordPress](https://cndi.dev/templates/wordpress)       | CMS & web apps                  |
-| [Hop](https://cndi.dev/templates/hop)                   | Visual data integration         |
-| [GPU Operator](https://cndi.dev/templates/gpu-operator) | GPU workloads / ML              |
-| [Functions](https://cndi.dev/templates/fns)             | Serverless functions            |
-| [Neo4j](https://cndi.dev/templates/neo4j)               | Graph database                  |
-| [MS SQL Server](https://cndi.dev/templates/mssqlserver) | Containerized SQL Server on K8s |
-
-- Don't forget **Custom Templates** are easy to create and share with the
-  community!
-
-## Why CNDI Deserves Your Attention
-
-- **🌟 Simplified Platform Engineering** – From zero to a full platform in
-  minutes
-- **🌟 Single Source of Truth** – All infra & apps in one Git repo with full
-  auditability.
-- **🌟 Production-Ready Out-of-the-Box** – Secure, monitored, GitOps flow from
-  day one.
-- **🌟 Flexibility & Control** – Sensible defaults and simple customization
-- **🌟 Community & Knowledge Sharing** – Contribute Templates and learn best
-  practices.
-- **🌟 Ideal for Small Teams & Startups** – No need for a large platform team to
-  get started.
-- **🌟 Future-Proof** – Community-maintained Templates ensure alignment with
-  best practices.
-
-Give CNDI a try – spin up a template in your cloud of choice, and experience how
-quickly you can go from code to cloud. Happy self-hosting! 🚀
-
----
 
 ## Further Resources
 
