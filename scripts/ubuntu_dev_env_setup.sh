@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Exit immediately on error
-set -e
+# # Exit immediately on error
+# set -e
 
 # Colors for messages
 GREEN="\e[32m"
@@ -38,7 +38,7 @@ install_vscode() {
     #flatpak install -y flathub com.visualstudio.code
     #flatpak info com.visualstudio.code || echo -e "${RED}VS Code installation verification failed!${RESET}"
     sudo snap install --classic code
-    code --version || echo -e "${RED}VS Code installation failed!${RESET}"
+    # code --version || echo -e "${RED}VS Code installation failed!${RESET}"
 }
 
 # Install Cloud CLIs
@@ -48,7 +48,7 @@ install_azure_cli() {
     echo -e "${YELLOW}Installing Azure CLI...${RESET}"
     curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
     # Verify Azure CLI has installed
-    az version || echo -e "${RED}Azure CLI installation verification failed!${RESET}"
+    # az version || echo -e "${RED}Azure CLI installation verification failed!${RESET}"
 }
 
 # AWS CLI
@@ -58,7 +58,7 @@ install_aws_cli() {
     unzip awscliv2.zip
     sudo ./aws/install
     # Verify AWS CLI has installed
-    aws --version || echo -e "${RED}AWS CLI installation verification failed!${RESET}"
+    # aws --version || echo -e "${RED}AWS CLI installation verification failed!${RESET}"
     # Remove installation "junk"
     rm -rf aws awscliv2.zip
 }
@@ -70,7 +70,7 @@ install_google_cloud_sdk() {
     echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
     sudo apt update && sudo apt -y install google-cloud-cli
     # Verify Google Cloud SDK has installed
-    gcloud version || echo -e "${RED}Google Cloud SDK installation verification failed!${RESET}"
+    # gcloud version || echo -e "${RED}Google Cloud SDK installation verification failed!${RESET}"
 }
 
 # Install Infrastructure as Code tools
@@ -88,7 +88,7 @@ install_terraform() {
 
     sudo apt update && sudo apt -y install terraform
     # Verify Terraform has installed
-    terraform version || echo -e "${RED}Terraform installation verification failed!${RESET}"
+    # terraform version || echo -e "${RED}Terraform installation verification failed!${RESET}"
 }
 
 # OpenTofu
@@ -106,7 +106,7 @@ install_bicep() {
     chmod +x ./bicep
     sudo mv ./bicep /usr/local/bin/bicep
     # Verify Bicep has installed
-    bicep --version || echo -e "${RED}Bicep installation verification failed!${RESET}"
+    # bicep --version || echo -e "${RED}Bicep installation verification failed!${RESET}"
 }
 
 # Helm
@@ -116,7 +116,7 @@ install_helm() {
     chmod 700 get_helm.sh
     ./get_helm.sh
     # Verify Helm has installed
-    helm version || echo -e "${RED}Helm installation verification failed!${RESET}"
+    # helm version || echo -e "${RED}Helm installation verification failed!${RESET}"
 
 }
 
@@ -128,7 +128,7 @@ install_kubectl() {
     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
     sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
     # Verify kubectl has installed
-    kubectl version --client || echo -e "${RED}kubectl installation verification failed!${RESET}"
+    # kubectl version --client || echo -e "${RED}kubectl installation verification failed!${RESET}"
     # Remove installation "junk"
     rm -f kubectl
 
@@ -144,7 +144,7 @@ install_k9s() {
     # Install K9s using the .deb package
     sudo apt install ./"$(basename "$latest_k9s")"
     # Verify K9s installation
-    k9s version || echo -e "${RED}K9s installation verification failed!${RESET}"
+    # k9s version || echo -e "${RED}K9s installation verification failed!${RESET}"
     # Remove Installation "junk"
     rm -f "$(basename "$latest_k9s")"
 
@@ -156,7 +156,7 @@ install_minikube() {
     curl -LO https://github.com/kubernetes/minikube/releases/latest/download/minikube-linux-amd64
     sudo install minikube-linux-amd64 /usr/local/bin/minikube
     # Verify minikube has installed
-    minikube version || echo -e "${RED}minikube installation verification failed!${RESET}"
+    # minikube version || echo -e "${RED}minikube installation verification failed!${RESET}"
     # Remove installation "junk"
     rm -f minikube-linux-amd64
 
@@ -167,8 +167,7 @@ install_oh_my_posh() {
     echo -e "${YELLOW}Installing Oh My Posh...${RESET}"
     curl -s https://ohmyposh.dev/install.sh | bash -s
     # Verify Oh My Posh has installed
-    oh-my-posh --version || echo -e "${RED}Oh My Posh installation verification failed!${RESET}"
-
+    # oh-my-posh --version || echo -e "${RED}Oh My Posh installation verification failed!${RESET}"
 }
 
 # VScode extensions
@@ -266,6 +265,46 @@ check_kubernetes_access() {
     fi
 }
 
+check_installation() {
+    local cmd=$1
+    local name=$2
+
+    if $cmd &>/dev/null; then
+        echo -e "${GREEN}${name} Installation: SUCCESS${RESET}"
+    else
+        echo -e "${RED}${name} Installation: FAILED${RESET}"
+    fi
+}
+
+final_verification() {
+    echo -e "\n${YELLOW}Verifying all installations...${RESET}"
+    check_installation "git --version" "Git"
+    check_installation "vim --version" "Vim"
+    check_installation "tilix --version" "Tilix"
+    check_installation "curl --version" "cURL"
+    check_installation "wget --version" "Wget"
+    check_installation "jq --version" "jq"
+    check_installation "unzip -v" "Unzip"
+    check_installation "gpg --version" "GnuPG"
+    check_installation "apt-config dump" "APT Transport HTTPS (Check APT Config)"
+    check_installation "openssl version" "CA Certificates (Check OpenSSL)"
+    check_installation "apt-cache policy software-properties-common" "Software Properties Common"
+    check_installation "code --version" "VS Code"
+    check_installation "az version" "Azure CLI"
+    check_installation "aws --version" "AWS CLI"
+    check_installation "gcloud version" "Google Cloud SDK"
+    check_installation "terraform version" "Terraform"
+    check_installation "tofu version" "OpenTofu"
+    check_installation "bicep --version" "Bicep"
+    check_installation "helm version" "Helm"
+    check_installation "kubectl version --client" "kubectl"
+    check_installation "k9s version" "K9s"
+    check_installation "minikube version" "Minikube"
+    check_installation "oh-my-posh --version" "Oh My Posh"
+    echo "${YELLOW}Listing all VS Code Extentions${RESET}"
+    code --list-extensions
+}
+
 final_messages() {
     echo -e "${GREEN}Development environment setup complete!${RESET}"
 }
@@ -317,6 +356,8 @@ main() {
     # Validate Kubernetes
     check_kubernetes_access
 
+    # Verify all installations
+    final_verification
 
     # Final message
     final_messages
