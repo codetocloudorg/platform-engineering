@@ -79,7 +79,7 @@ install_google_cloud_sdk() {
 install_terraform() {
     echo -e "${YELLOW}Installing Terraform...${RESET}"
 
-    wget -O- https://apt.releases.hashicorp.com/gpg |\ 
+    wget -O- https://apt.releases.hashicorp.com/gpg |\
     gpg --dearmor |\
     sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg > /dev/null
 
