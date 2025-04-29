@@ -301,7 +301,7 @@ final_verification() {
     check_installation "k9s version" "K9s"
     check_installation "minikube version" "Minikube"
     check_installation "~/.local/bin/oh-my-posh --version" "Oh My Posh"
-    echo "${YELLOW}Listing all VS Code Extentions${RESET}"
+    echo -e "${YELLOW}Listing all VS Code Extentions${RESET}"
     code --list-extensions
 }
 
