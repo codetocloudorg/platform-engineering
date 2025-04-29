@@ -291,7 +291,7 @@ final_verification() {
     check_installation "apt-cache policy software-properties-common" "Software Properties Common"
     check_installation "code --version" "VS Code"
     check_installation "az version" "Azure CLI"
-    check_installation "aws --version" "AWS CLI"
+    check_installation "sudo aws --version" "AWS CLI"
     check_installation "gcloud version" "Google Cloud SDK"
     check_installation "terraform version" "Terraform"
     check_installation "tofu version" "OpenTofu"
@@ -300,7 +300,7 @@ final_verification() {
     check_installation "kubectl version --client" "kubectl"
     check_installation "k9s version" "K9s"
     check_installation "minikube version" "Minikube"
-    check_installation "oh-my-posh --version" "Oh My Posh"
+    check_installation "~/.local/bin/oh-my-posh --version" "Oh My Posh"
     echo "${YELLOW}Listing all VS Code Extentions${RESET}"
     code --list-extensions
 }
