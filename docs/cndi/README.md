@@ -22,12 +22,11 @@ Let’s dive into what CNDI has to offer.
 
 ## Overview of CNDI
 
-**What is CNDI?** CNDI stands for **Cloud-Native Deployment Infrastructure**
+**What is CNDI?** CNDI stands for **Cloud-Native Deployment Infrastructure** and
+is maintained by the Polyseam team. It automates the creation of
+Kubernetes-based platforms all modern environments.
 
-<!-- Does it? --> and is maintained by the Polyseam team. It automates the
-
-creation of Kubernetes-based platforms all modern environments. With CNDI you
-can automatically:
+With CNDI you can automatically:
 
 - **Provision Infrastructure**: Set up cloud resources (VMs, networking, etc.)
   on AWS, GCP, Azure, or even locally, all defined via code.
@@ -193,14 +192,14 @@ Deploy **Airflow** on your cloud in minutes:
 ## CNDI Templates and Use Cases
 
 CNDI comes with a variety of **pre-built templates** for common use cases. These
-templates are designed to be production-ready and can be easily customized to
+Templates are designed to be production-ready and can be easily customized to
 fit your needs. Each template includes a complete stack of infrastructure,
 Kubernetes cluster, and applications, all defined in a single `cndi_config.yaml`
 file. This allows you to quickly spin up a fully functional environment with
 minimal effort, and when you need to make changes, you can do so by simply
 editing that same file and running `cndi overwrite`.
 
-Popular templates:
+Popular Templates:
 
 | Template                                                | Use Case                        |
 | ------------------------------------------------------- | ------------------------------- |
@@ -219,21 +218,6 @@ Popular templates:
 
 - Don't forget **Custom Templates** are easy to create and share with the
   community!
-
-## Comparison to Other Tools
-
-- **DIY IaC + GitOps**: CNDI bundles Terraform, Argo CD, and CI, so you don’t
-  start from scratch.
-- **Crossplane**: A framework to build platforms; CNDI is a ready-to-go platform
-  with batteries included.
-- **Kubefirst**: Similar instant GitOps platform installer; CNDI uses a
-  single-repo, template-driven approach.
-- **Backstage**: Developer portal UI; CNDI provides the automation backend. They
-  can complement each other.
-- **Commercial IDPs**: Humanitec, Port, etc., are paid and closed-source; CNDI
-  is open-source and self-hosted.
-- **Terraform/Pulumi**: Low-level IaC; CNDI generates Terraform for you and ties
-  it into GitOps workflows.
 
 ## Why CNDI Deserves Your Attention
 
@@ -272,6 +256,3 @@ quickly you can go from code to cloud. Happy self-hosting! 🚀
   - Sealed Secrets: https://github.com/bitnami-labs/sealed-secrets
   - Checkov: https://www.checkov.io
   - Helm: https://helm.sh
-  - Crossplane: https://crossplane.io
-  - Kubefirst: https://kubefirst.io
-  - Backstage: https://backstage.io
