@@ -10,9 +10,9 @@ own cloud with no license fees. 🚀
 
 Developers can use CNDI to quickly provision **production-ready** Kubernetes
 clusters _and_ deploy popular services on them (like databases, analytics, or
-CI/CD tools) using a single unified configuration. Everything is managed as code
-in a single Git repository for auditability and reproducibility. You can even
-create your own custom Templates, turning CNDI into a platform engineering
+CI/CD tools) using a single unified configuration file. Everything is managed as
+code in a single Git repository for auditability and reproducibility. You can
+even create your own custom Templates, turning CNDI into a platform engineering
 powerhouse.
 
 If you like what you see, please check us out at
@@ -51,8 +51,8 @@ With CNDI you can automatically:
 - **Provision Infrastructure**: Set up cloud resources (VMs, networking, etc.)
   on AWS, GCP, Azure, or even locally, all defined via code.
 - **Bootstrap your Kubernetes Cluster and Components**: Install a Kubernetes
-  distribution on those resources complete with essential add-ons (ingress,
-  cert-manager, etc.).
+  distribution on those infrastructure resources complete with essential add-ons
+  (ingress, cert-manager, etc.).
 - **Deploy Applications via GitOps**: Integrate ArgoCD for GitOps so that your
   application manifests (Helm charts, YAMLs) are continuously deployed to the
   cluster from your git repo.
@@ -176,7 +176,7 @@ flowchart TD
 
 </details>
 
-### Developer Experience
+## Developer Experience
 
 1. **Project Creation (Bootstrap)**
    - `cndi create` (interactive) → scaffolds a new Git repo with:
