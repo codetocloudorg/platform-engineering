@@ -202,7 +202,7 @@ configure_git() {
         ssh-add ~/.ssh/id_rsa
     fi
 
-    # Refer to Markdown Instructions
+    # Refer to Markdown/Readme Instructions
     echo "Copy your SSH key and add it to GitHub:"
     echo "cat ~/.ssh/id_rsa.pub"
 }
@@ -269,7 +269,7 @@ check_installation() {
     local cmd=$1
     local name=$2
 
-    if $cmd &>/dev/null; then
+    if eval $cmd &>/dev/null; then
         echo -e "${GREEN}${name} Installation: SUCCESS${RESET}"
     else
         echo -e "${RED}${name} Installation: FAILED${RESET}"
