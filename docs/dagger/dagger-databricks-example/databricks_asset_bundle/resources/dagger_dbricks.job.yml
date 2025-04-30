@@ -29,3 +29,21 @@ resources:
             autoscale:
                 min_workers: 1
                 max_workers: 4
+
+    dagger_dbricks_job_tests:
+      name: dagger_dbricks_job_tests
+
+      trigger:
+        # Run this job every day, exactly one day from the last run; see https://docs.databricks.com/api/workspace/jobs/create#trigger
+        periodic:
+          interval: 1
+          unit: DAYS
+
+      #email_notifications:
+      #  on_failure:
+      #    - your_email@example.com
+
+      tasks:
+        - task_key: notebook_task
+          notebook_task:
+            notebook_path: ../tests/tests.ipynb
