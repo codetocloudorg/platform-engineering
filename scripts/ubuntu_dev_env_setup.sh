@@ -1,13 +1,21 @@
 #!/bin/bash
 
-# # Exit immediately on error
-# set -e
-
 # Colors for messages
 GREEN="\e[32m"
 RED="\e[31m"
 YELLOW="\e[33m"
 RESET="\e[0m"
+
+# Validate network
+validate_network() {
+    echo -e "${YELLOW}Checking network connectivity...${RESET}"
+    if ping -c 3 google.com; then
+        echo -e "${GREEN}Network connectivity: SUCCESSFUL${RESET}"
+    else
+        echo -e "${RED}Network connectivity: FAILED${RESET}"
+        exit 1
+    fi
+}
 
 # Update and upgrade the system
 upgrade_system() {
@@ -35,10 +43,7 @@ install_dev_tools() {
 # Install VS Code (via Snap)
 install_vscode() {
     echo -e "${YELLOW}Installing VS Code (via Snap) ${RESET}"
-    #flatpak install -y flathub com.visualstudio.code
-    #flatpak info com.visualstudio.code || echo -e "${RED}VS Code installation verification failed!${RESET}"
     sudo snap install --classic code
-    # code --version || echo -e "${RED}VS Code installation failed!${RESET}"
 }
 
 # Install Cloud CLIs
@@ -47,8 +52,6 @@ install_vscode() {
 install_azure_cli() {
     echo -e "${YELLOW}Installing Azure CLI...${RESET}"
     curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-    # Verify Azure CLI has installed
-    # az version || echo -e "${RED}Azure CLI installation verification failed!${RESET}"
 }
 
 # AWS CLI
@@ -57,8 +60,6 @@ install_aws_cli() {
     curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
     unzip awscliv2.zip
     sudo ./aws/install
-    # Verify AWS CLI has installed
-    # aws --version || echo -e "${RED}AWS CLI installation verification failed!${RESET}"
     # Remove installation "junk"
     rm -rf aws awscliv2.zip
 }
@@ -69,8 +70,6 @@ install_google_cloud_sdk() {
     curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
     echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
     sudo apt update && sudo apt -y install google-cloud-cli
-    # Verify Google Cloud SDK has installed
-    # gcloud version || echo -e "${RED}Google Cloud SDK installation verification failed!${RESET}"
 }
 
 # Install Infrastructure as Code tools
@@ -87,16 +86,12 @@ install_terraform() {
     sudo tee /etc/apt/sources.list.d/hashicorp.list
 
     sudo apt update && sudo apt -y install terraform
-    # Verify Terraform has installed
-    # terraform version || echo -e "${RED}Terraform installation verification failed!${RESET}"
 }
 
 # OpenTofu
 install_opentofu() {
     echo -e "${YELLOW}Installing OpenTofu...${RESET}"
     sudo snap install --classic opentofu
-    # Verify OpenTofu has installed
-    tofu version || echo -e "${RED}OpenTofu installation verification failed!${RESET}"
 }
 
 # Bicep
@@ -105,8 +100,6 @@ install_bicep() {
     curl -Lo bicep https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64
     chmod +x ./bicep
     sudo mv ./bicep /usr/local/bin/bicep
-    # Verify Bicep has installed
-    # bicep --version || echo -e "${RED}Bicep installation verification failed!${RESET}"
 }
 
 # Helm
@@ -115,8 +108,6 @@ install_helm() {
     curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
     chmod 700 get_helm.sh
     ./get_helm.sh
-    # Verify Helm has installed
-    # helm version || echo -e "${RED}Helm installation verification failed!${RESET}"
 
 }
 
@@ -127,11 +118,8 @@ install_kubectl() {
     echo -e "${YELLOW}Installing Kubectl...${RESET}"
     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
     sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-    # Verify kubectl has installed
-    # kubectl version --client || echo -e "${RED}kubectl installation verification failed!${RESET}"
     # Remove installation "junk"
     rm -f kubectl
-
 }
 
 # K9s
@@ -143,11 +131,8 @@ install_k9s() {
     wget "$latest_k9s"
     # Install K9s using the .deb package
     sudo apt install ./"$(basename "$latest_k9s")"
-    # Verify K9s installation
-    # k9s version || echo -e "${RED}K9s installation verification failed!${RESET}"
     # Remove Installation "junk"
     rm -f "$(basename "$latest_k9s")"
-
 }
 
 # minikube
@@ -155,19 +140,14 @@ install_minikube() {
     echo -e "${YELLOW}Installing Minikube...${RESET}"
     curl -LO https://github.com/kubernetes/minikube/releases/latest/download/minikube-linux-amd64
     sudo install minikube-linux-amd64 /usr/local/bin/minikube
-    # Verify minikube has installed
-    # minikube version || echo -e "${RED}minikube installation verification failed!${RESET}"
     # Remove installation "junk"
     rm -f minikube-linux-amd64
-
 }
 
 # Oh My Posh
 install_oh_my_posh() {
     echo -e "${YELLOW}Installing Oh My Posh...${RESET}"
     curl -s https://ohmyposh.dev/install.sh | bash -s
-    # Verify Oh My Posh has installed
-    # oh-my-posh --version || echo -e "${RED}Oh My Posh installation verification failed!${RESET}"
 }
 
 # VScode extensions
@@ -181,43 +161,6 @@ install_vscode_extensions() {
     code --install-extension ms-azuretools.vscode-bicep
     code --install-extension eamodio.gitlens
     code --install-extension streetsidesoftware.code-spell-checker
-}
-
-# Config git with ssh authentication
-# The following portion would require manual inputs"
-configure_git() {
-    echo -e "${YELLOW}Configuring Git with SSH...${RESET}"
-    echo -e "${YELLOW}Enter your primary email for git:${RESET}"
-    read git_email
-    git config --global user.email "$git_email"
-
-    echo -e "${YELLOW}Enter your name for git:${RESET}"
-    read git_name
-    git config --global user.name "$git_name"
-
-    if [[ ! -f ~/.ssh/id_ed25519 ]]; then
-        echo "${YELLOW}Generating SSH key for GitHub...${RESET}"
-        ssh-keygen -t ed25519 -C "$git_email"
-        eval "$(ssh-agent -s)"
-        ssh-add ~/.ssh/id_ed25519
-    fi
-
-    # Refer to Markdown/Readme Instructions
-    echo -e "${YELLOW}Copy your SSH key and add it to GitHub:${RESET}"
-    cat ~/.ssh/id_ed25519.pub
-    echo -e "${YELLOW}Refer to README notes on the next steps${RESET}"
-}
-
-		
-# Validate networking
-validate_network() {
-    echo -e "${YELLOW}Checking network connectivity...${RESET}"
-    if ping -c 3 google.com; then
-        echo -e "${GREEN}Network connectivity: SUCCESSFUL${RESET}"
-    else
-        echo -e "${RED}Network connectivity: FAILED${RESET}"
-        exit 1
-    fi
 }
 
 # Validate Permissions and Authentication of Cloud CLI
@@ -304,13 +247,42 @@ final_verification() {
     check_installation "~/.local/bin/oh-my-posh --version" "Oh My Posh"
     echo -e "${YELLOW}Listing all VS Code Extentions${RESET}"
     code --list-extensions
+    echo -e "${GREEN}Development environment setup is almost complete!${RESET}"
+
 }
 
-final_messages() {
-    echo -e "${GREEN}Development environment setup is almost complete!${RESET}"
+# Config git with ssh authentication
+# The following portion would require manual inputs"
+configure_git() {
+    echo -e "${YELLOW}Configuring Git with SSH...${RESET}"
+    echo -e "${YELLOW}Enter your primary email for git:${RESET}"
+    read git_email
+    git config --global user.email "$git_email"
+
+    echo -e "${YELLOW}Enter your name for git:${RESET}"
+    read git_name
+    git config --global user.name "$git_name"
+
+    if [[ ! -f ~/.ssh/id_ed25519 ]]; then
+        echo "${YELLOW}Generating SSH key for GitHub...${RESET}"
+        ssh-keygen -t ed25519 -C "$git_email"
+        eval "$(ssh-agent -s)"
+        ssh-add ~/.ssh/id_ed25519
+    fi
+
+    # Refer to Markdown/Readme Instructions
+    echo -e "${YELLOW}Copy your SSH key and add it to GitHub:${RESET}"
+    cat ~/.ssh/id_ed25519.pub
+    echo -e "${YELLOW}Refer to README notes on the next steps${RESET}"
+}
+
+next_steps_message() {
     echo -e "${YELLOW}Last Step: SSH Authentication with GitHub${RESET}"
 }
 
+final_message() {
+    echo -e "${GREEN}Congratulations! You have reached the end of this script. Refer back to the verification step and ensure that all installations did not ${RED}FAIL.${RESET}"
+}
 
 main() {
     # Initial validation
@@ -325,17 +297,10 @@ main() {
     # Install VS Code
     install_vscode
     
-    # Install Cloud CLIs and validate them
+    # Install Cloud CLIs
     install_azure_cli
-    # NEEDS FIXING
-    # validate_azure_cli_permissions
-
     install_aws_cli
-    # NEEDS FIXING
-    # validate_aws_cli_permissions
-
     install_google_cloud_sdk
-    validate_google_cloud_sdk_permissions
 
     # Install Infrastructure tools and validate
     install_terraform
@@ -354,18 +319,20 @@ main() {
     # Install VSCode Extensions
     install_vscode_extensions
 
-    # Validate Kubernetes
-    # NEEDS FIXING
-    # check_kubernetes_access
-
     # Verify all installations
     final_verification
 
-    # Final message
-    final_messages
+    # "Step 1 - END" message
+    next_steps_message
 
     # Configure Git
     configure_git
+
+    # Validate Cloud CLI's and Kubernetes Access (NEEDS FIXING!!!!!)
+    # validate_azure_cli_permissions
+    # validate_aws_cli_permissions
+    # validate_google_cloud_sdk_permissions
+    # check_kubernetes_access
 }
 
 main
