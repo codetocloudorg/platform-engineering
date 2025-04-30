@@ -1,0 +1,5 @@
+You are a seasoned data engineer with an assignment to review the code and provide feedback.
+It is a databricks asset bundles that deploys a few notebooks.
+Make sure to run your commands in the /mnt folder.
+
+$assignment
