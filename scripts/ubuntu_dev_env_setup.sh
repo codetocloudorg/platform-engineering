@@ -187,24 +187,25 @@ install_vscode_extensions() {
 # The following portion would require manual inputs"
 configure_git() {
     echo -e "${YELLOW}Configuring Git with SSH...${RESET}"
-    echo "Enter your primary email for git:"
+    echo -e "${YELLOW}Enter your primary email for git:${RESET}"
     read git_email
     git config --global user.email "$git_email"
 
-    echo "Enter your name for git:"
+    echo -e "${YELLOW}Enter your name for git:${RESET}"
     read git_name
     git config --global user.name "$git_name"
 
-    if [[ ! -f ~/.ssh/id_rsa ]]; then
-        echo "Generating SSH key for GitHub..."
-        ssh-keygen -t rsa -b 4096 -C "$git_email"
+    if [[ ! -f ~/.ssh/id_ed25519 ]]; then
+        echo "${YELLOW}Generating SSH key for GitHub...${RESET}"
+        ssh-keygen -t ed25519 -C "$git_email"
         eval "$(ssh-agent -s)"
-        ssh-add ~/.ssh/id_rsa
+        ssh-add ~/.ssh/id_ed25519
     fi
 
     # Refer to Markdown/Readme Instructions
-    echo "Copy your SSH key and add it to GitHub:"
-    echo "cat ~/.ssh/id_rsa.pub"
+    echo -e "${YELLOW}Copy your SSH key and add it to GitHub:${RESET}"
+    cat ~/.ssh/id_ed25519.pub
+    echo -e "${YELLOW}Refer to README notes on the next steps${RESET}"
 }
 
 		
@@ -306,7 +307,8 @@ final_verification() {
 }
 
 final_messages() {
-    echo -e "${GREEN}Development environment setup complete!${RESET}"
+    echo -e "${GREEN}Development environment setup is almost complete!${RESET}"
+    echo -e "${YELLOW}Last Step: SSH Authentication with GitHub${RESET}"
 }
 
 
@@ -352,9 +354,6 @@ main() {
     # Install VSCode Extensions
     install_vscode_extensions
 
-    # Configure Git
-    configure_git
-
     # Validate Kubernetes
     # NEEDS FIXING
     # check_kubernetes_access
@@ -364,6 +363,9 @@ main() {
 
     # Final message
     final_messages
+
+    # Configure Git
+    configure_git
 }
 
 main
