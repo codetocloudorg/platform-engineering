@@ -15,4 +15,5 @@ $ENV:DATABRICKS_CLIENT_SECRET = "databricks_service_principal_secret"
 $ENV:DATABRICKS_CLIENT_ID = "databricks_client_id"
 ```
 
-5. `cd` into this directory and run `dagger call databricks-asset-bundle-deploy --directory_arg=./databricks_asset_bundle --databricks-client-id "DATABRICKS_CLIENT_ID" --databricks-client-secret "DATABRICKS_CLIENT_SECRET" --databricks-workspace-url "DATABRICKS_HOST"`
+5. `cd` into this directory and run
+   ```dagger call databricks-asset-bundle-deploy --directory_arg=./databricks_asset_bundle --databricks-client-id "DATABRICKS_CLIENT_ID" --databricks-client-secret "DATABRICKS_CLIENT_SECRET" --databricks-workspace-url "DATABRICKS_HOST"```
