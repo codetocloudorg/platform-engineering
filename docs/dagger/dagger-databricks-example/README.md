@@ -10,7 +10,7 @@
 4. Set the following environment variables:
 
 ```pwsh
-$ENV:DATABRICKS_HOST = ""https://<workspace_id>.azuredatabricks.net/""
+$ENV:DATABRICKS_HOST = "https://<workspace_id>.azuredatabricks.net/"
 $ENV:DATABRICKS_CLIENT_SECRET = "databricks_service_principal_secret"
 $ENV:DATABRICKS_CLIENT_ID = "databricks_client_id"
 ```
