@@ -163,52 +163,6 @@ install_vscode_extensions() {
     code --install-extension streetsidesoftware.code-spell-checker
 }
 
-# Validate Permissions and Authentication of Cloud CLI
-# ====================================
-# Validate AWS CLI
-validate_aws_cli_permissions() {
-    echo -e "${YELLOW}Checking AWS CLI authentication and permissions...${RESET}"
-    if aws sts get-caller-identity &>/dev/null; then
-        echo -e "${GREEN}AWS CLI authentication: SUCCESS${RESET}"
-    else
-        echo -e "${RED}AWS CLI authentication: FAILED${RESET}"
-        exit 1
-    fi
-}
-
-# Validate AZURE CLI
-validate_azure_cli_permissions() {
-    echo -e "${YELLOW}Checking Azure CLI authentication and permissions...${RESET}"
-    if az account show &>/dev/null; then
-        echo -e "${GREEN}Azure CLI authentication: SUCCESS${RESET}"
-    else
-        echo -e "${RED}Azure CLI authentication: FAILED${RESET}"
-        exit 1
-    fi
-}
-
-# Validate GOOGLE SDK
-validate_google_cloud_sdk_permissions() {
-    echo -e "${YELLOW}Checking Google Cloud SDK authentication and permissions...${RESET}"
-    if gcloud auth list &>/dev/null; then
-        echo -e "${GREEN}Google Cloud SDK authentication: SUCCESS${RESET}"
-    else
-        echo -e "${RED}Google Cloud SDK authentication: FAILED${RESET}"
-        exit 1
-    fi
-}
-
-# Validate Kubernetes 
-check_kubernetes_access() {
-    echo -e "${YELLOW}Checking Kubernetes cluster access...${RESET}"
-    if kubectl cluster-info &>/dev/null; then
-        echo -e "${GREEN}Kubernetes access: SUCCESS${RESET}"
-    else
-        echo -e "${RED}Kubernetes access: FAILED${RESET}"
-        exit 1
-    fi
-}
-
 check_installation() {
     local cmd=$1
     local name=$2
@@ -327,12 +281,6 @@ main() {
 
     # Configure Git
     configure_git
-
-    # Validate Cloud CLI's and Kubernetes Access (NEEDS FIXING!!!!!)
-    # validate_azure_cli_permissions
-    # validate_aws_cli_permissions
-    # validate_google_cloud_sdk_permissions
-    # check_kubernetes_access
 }
 
 main
