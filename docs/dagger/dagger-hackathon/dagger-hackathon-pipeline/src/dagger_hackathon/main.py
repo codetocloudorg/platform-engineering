@@ -63,9 +63,11 @@ class DaggerHackathon:
             .with_prompt_file(dag.current_module().source().file("test_debug_prompt.txt"))
         )
 
-        await self.AddSuggestionPr(directory_arg, github_token, await analyze_results.last_reply())
+        # Get the suggestion from the environment's output
+        suggestion = await analyze_results.last_reply()
+        pr_response = await self.AddSuggestionPr(directory_arg, github_token, "a+b+c+d")
         
-        return await analyze_results.last_reply()
+        return f"Suggestion: {suggestion}\nPR Response: {pr_response}"
 
     @function
     async def AddSuggestionPr(self, directory_arg: dagger.Directory, github_token: dagger.Secret, suggestion: str):
@@ -84,22 +86,11 @@ class DaggerHackathon:
                 )
             ])
             .with_exec([
-                "sh", "-c",
-                "echo 'Debug - GitHub CLI installed, about to authenticate'"
-            ])
-            .with_exec([
-                "gh", "auth", "login", "--with-token"
-            ])
-            .with_exec([
-                "sh", "-c",
-                "echo 'Debug - Authenticated, about to make API call'"
-            ])
-            .with_exec([
                 "gh", "api",
                 "--method", "POST",
                 "-H", "Accept: application/vnd.github+json",
                 "-H", "X-GitHub-Api-Version: 2022-11-28",
-                "/repos/codetocloudorg/platform-engineering/pulls/75/comments",
+                "/repos/codetocloudorg/platform-engineering/pulls/76/comments",
                 "-f", f"body=```suggestion\n{suggestion}\n```",
                 "-f", "commit_id=2e39001f118c95593ac90c1361b3dd770eaaeeaa",
                 "-f", "path=docs/dagger/dagger-hackathon/src/addition.py",
@@ -108,13 +99,4 @@ class DaggerHackathon:
             ])
         )
 
-        # Get and log the API response
-        response = await container.stdout()
-        debug_container = (
-            dag.container()
-            .from_("alpine:latest")
-            .with_exec(["sh", "-c", f'echo "Debug - GitHub API response: {response}"'])
-        )
-        await debug_container.stdout()
-        
-        return response
+        return await container.stdout()
