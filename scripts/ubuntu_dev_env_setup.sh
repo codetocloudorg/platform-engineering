@@ -213,7 +213,7 @@ configure_git() {
     read git_email
     git config --global user.email "$git_email"
 
-    echo -e "${YELLOW}Enter your name for git:${RESET}"
+    echo -e "${YELLOW}Enter your username for git:${RESET}"
     read git_name
     git config --global user.name "$git_name"
 
@@ -235,7 +235,7 @@ next_steps_message() {
 }
 
 final_message() {
-    echo -e "${GREEN}Congratulations! You have reached the end of this script. Refer back to the verification step and ensure that all installations did not ${RED}FAIL.${RESET}"
+    echo -e "${GREEN}Congratulations! You have reached the end of this script. Refer back to the verification step and ensure that all installations did not ${RED}FAIL.${RESET} Ensure that your SSH key has been generated and set into your GitHub account."
 }
 
 main() {
