@@ -2,7 +2,7 @@
 name = "dagger-hackathon"
 version = "0.1.0"
 requires-python = ">=3.12"
-dependencies = ["dagger-io"]
+dependencies = ["dagger-io", "openai==1.82.0", "pydantic==2.11.5"]
 
 [build-system]
 requires = ["hatchling==1.25.0"]

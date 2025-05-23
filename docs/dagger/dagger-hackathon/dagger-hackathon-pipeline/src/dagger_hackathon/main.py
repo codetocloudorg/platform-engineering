@@ -34,6 +34,37 @@ class AgentResponses:
 @object_type
 class DaggerHackathon:
     @function
+    async def CreateStructuredResponse(
+        self, 
+        directory_arg: dagger.Directory, 
+        response_to_structure: str,
+        azure_api_key: dagger.Secret,
+        azure_endpoint: str,
+        azure_model: str
+    ) -> str:
+        """Structure LLM Response"""
+
+        command = [
+            "python", "dagger-hackathon-pipeline/src/dagger_hackathon/structure_data.py",
+            "--response", response_to_structure,
+            "--endpoint", azure_endpoint,
+            "--model", azure_model
+        ]
+        container = (
+            dag.container()
+            .from_("python:3.11")
+            .with_mounted_directory("/app", directory_arg)
+            .with_workdir("/app")
+            .with_secret_variable("AZURE_OPENAI_API_KEY", azure_api_key)
+            .with_exec(["pip", "install", "--upgrade", "pip"])
+            .with_exec(["pip", "install", "openai==1.82.0", "pydantic==2.11.5"])  
+            .with_exec(command)
+        )
+        
+        return await container.stdout()
+
+    
+    @function
     async def RunUnitTests(self, directory_arg: dagger.Directory) -> UnitTestResult:
         """Run all unit tests and return the results"""
 
@@ -102,7 +133,13 @@ class DaggerHackathon:
         return output
 
     @function
-    async def CreateCodeSuggestion(self, directory_arg: dagger.Directory, github_token: dagger.Secret, pr_metadata: PrMetadataResult, proposed_code_changes: ProposedCodeChanges) -> GitHubPrSuggestionResults:
+    async def CreateCodeSuggestion(
+        self, 
+        directory_arg: dagger.Directory, 
+        github_token: dagger.Secret, 
+        pr_metadata: PrMetadataResult, 
+        proposed_code_changes: ProposedCodeChanges,
+        ) -> GitHubPrSuggestionResults:
         """Create a code suggestion for a PR"""
 
         container = (
@@ -143,7 +180,16 @@ class DaggerHackathon:
         return output
 
     @function
-    async def DebugUnitTestAgent(self, directory_arg: dagger.Directory, github_branch: str, github_repo: str, github_token: dagger.Secret) -> AgentResponses:
+    async def DebugUnitTestAgent(
+        self, 
+        directory_arg: dagger.Directory, 
+        github_branch: str, 
+        github_repo: str, 
+        github_token: dagger.Secret,
+        azure_api_key: dagger.Secret,
+        azure_endpoint: str,
+        azure_model: str
+        ) -> AgentResponses:
         """Debug the unit test agent"""
 
         pr_metadata = await self.GetPrMetadata(github_branch, github_repo, github_token)
@@ -162,10 +208,10 @@ class DaggerHackathon:
                 .from_("python:3.11")
                 .with_mounted_directory("/app", directory_arg)
                 .with_workdir("/app"),
-                "a container with the test environment and source code"
+                "a container with the source code to indentify path to the problematic source file, line number, and EXACTLY ONE LINE of code that fixes the failing tests"
             )
             .with_container_output(
-                "completed", "the suggested code changes to fix the failing tests"
+                "completed", "the path to the problematic source file, line number, and EXACTLY ONE LINE of code that fixes the failing tests"
             )
         )
 
@@ -174,14 +220,19 @@ class DaggerHackathon:
             .with_env(environment)
             .with_prompt_file(dag.current_module().source().file("test_debug_prompt.txt"))
         )
+            
 
         # TODO: should above be it's own function to constrain return type???
         suggestion = await analyze_results.last_reply()
 
+        structured_data = await self.CreateStructuredResponse(directory_arg, suggestion, azure_api_key, azure_endpoint, azure_model)
+        
+        print(structured_data)
+        
         proposed_code_changes = ProposedCodeChanges(
             path="docs/dagger/dagger-hackathon/src/addition.py", # TODO: ask LLM to return path
             line="2", # TODO: ask LLM to return line number
-            change=suggestion
+            change="return a + b"
         )
 
         # for proposed_code_changes in proposed_code_changes:

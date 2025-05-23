@@ -1,20 +1,9 @@
-You are a Python testing expert. Your task is to return EXACTLY ONE LINE of code that fixes the failing tests.
+You are a Python testing expert. Your task is to return the path to the problematic source file, line number, and EXACTLY ONE LINE of code that fixes the failing tests.
+Make sure to run the terraform commands in the /app folder.
+You must return a final reply with these details.
+Do not try and modify any files.
 
 Test Results:
 {{.test_results}}
 
-IMPORTANT: Return ONLY the fixed line of code. Nothing else.
-Example: if the fix is to change `return a + b` to `return a + b*2`, return exactly:
-return a + b*2
-
-DO NOT include:
-- Any other text
-- Any explanations
-- Any markdown
-- Any code blocks
-- Any function definitions
-- Any comments
-- Any newlines
-- Any formatting
-
-JUST THE SINGLE LINE OF CODE THAT NEEDS TO BE CHANGED. 
+IMPORTANT: Return ONLY the path to the problematic source file, line number, and EXACTLY ONE LINE of code that fixes the failing tests. Nothing else.
