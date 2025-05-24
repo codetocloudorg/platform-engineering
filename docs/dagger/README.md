@@ -85,6 +85,7 @@ Please make sure you have the below prerequisites met before running the below e
 
 - [Dagger CLI](https://docs.dagger.io/ci/quickstart/cli/)
 - [Dagger Cloud Account](https://dagger.io/cloud)
+- [Docker](https://www.docker.com/products/docker-desktop/)
 
 ### 🌎 Real-World Examples
 
