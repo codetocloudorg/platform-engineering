@@ -211,7 +211,7 @@ class DaggerHackathon:
                 "a container used to troubleshoot failing unit tests"
             )
             .with_container_output(
-                "completed", "the path to the problematic source file, line number, and EXACTLY ONE LINE of code that fixes the failing tests"
+                "completed", "the completed assignment in the unit test container"
             )
         )
 
@@ -220,12 +220,8 @@ class DaggerHackathon:
             .with_env(environment)
             .with_prompt_file(dag.current_module().source().file("test_debug_prompt.txt"))
         )
-            
 
-        # TODO: should above be it's own function to constrain return type???
-        suggestion = await analyze_results.last_reply()
-
-        structured_data = await self.CreateStructuredResponse(directory_arg, suggestion, azure_api_key, azure_endpoint, azure_model)
+        structured_data = await self.CreateStructuredResponse(directory_arg, await analyze_results.last_reply(), azure_api_key, azure_endpoint, azure_model)
         
         print(structured_data)
         
