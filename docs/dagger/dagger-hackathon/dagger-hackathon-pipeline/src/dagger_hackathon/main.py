@@ -208,7 +208,7 @@ class DaggerHackathon:
                 .from_("python:3.11")
                 .with_mounted_directory("/app", directory_arg)
                 .with_workdir("/app"),
-                "a container with the source code to indentify path to the problematic source file, line number, and EXACTLY ONE LINE of code that fixes the failing tests"
+                "a container used to troubleshoot failing unit tests"
             )
             .with_container_output(
                 "completed", "the path to the problematic source file, line number, and EXACTLY ONE LINE of code that fixes the failing tests"

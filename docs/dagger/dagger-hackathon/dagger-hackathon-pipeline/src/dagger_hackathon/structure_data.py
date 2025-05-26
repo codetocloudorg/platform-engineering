@@ -3,9 +3,9 @@ from pydantic import BaseModel, Field
 from openai import AzureOpenAI
 
 class ProposedCodeChangesPydantic(BaseModel):
-    path: str = Field()
-    line: str = Field()
-    change: str = Field()
+    path: str = Field(description="The path to the source file. ie: docs/dagger/dagger-hackathon/src/file.py")
+    line: str = Field(description="The line number. ie: 10")
+    change: str = Field(description="The proposed code change. ie: return 8 * 6")
 
 def main():
     parser = argparse.ArgumentParser()
