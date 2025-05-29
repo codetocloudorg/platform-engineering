@@ -221,9 +221,9 @@ class DaggerHackathon:
             .with_prompt_file(dag.current_module().source().file("test_debug_prompt.txt"))
         )
 
-        structured_data = await self.CreateStructuredResponse(directory_arg, await analyze_results.last_reply(), azure_api_key, azure_endpoint, azure_model)
+        # structured_data = await self.CreateStructuredResponse(directory_arg, await analyze_results.last_reply(), azure_api_key, azure_endpoint, azure_model)
         
-        print(structured_data)
+        # print(structured_data)
         
         proposed_code_changes = ProposedCodeChanges(
             path="docs/dagger/dagger-hackathon/src/addition.py", # TODO: ask LLM to return path
