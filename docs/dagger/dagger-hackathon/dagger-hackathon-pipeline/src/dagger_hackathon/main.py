@@ -41,7 +41,7 @@ class DaggerHackathon:
         azure_api_key: dagger.Secret,
         azure_endpoint: str,
         azure_model: str
-    ) -> str:
+    ) -> ProposedCodeChanges:
         """Structure LLM Response"""
 
         command = [
@@ -60,8 +60,18 @@ class DaggerHackathon:
             .with_exec(["pip", "install", "openai==1.82.0", "pydantic==2.11.5"])  
             .with_exec(command)
         )
+
+        output = await container.stdout()
+
+        response_data = json.loads(output)
+
+        output = ProposedCodeChanges(
+            path=response_data["path"],
+            line=response_data["line"],
+            change=response_data["change"]
+        )
         
-        return await container.stdout()
+        return output
 
     
     @function
@@ -189,7 +199,7 @@ class DaggerHackathon:
         azure_api_key: dagger.Secret,
         azure_endpoint: str,
         azure_model: str
-        ) -> AgentResponses:
+        ) -> str:
         """Debug the unit test agent"""
 
         pr_metadata = await self.GetPrMetadata(github_branch, github_repo, github_token)
@@ -221,22 +231,15 @@ class DaggerHackathon:
             .with_prompt_file(dag.current_module().source().file("test_debug_prompt.txt"))
         )
 
-        # structured_data = await self.CreateStructuredResponse(directory_arg, await analyze_results.last_reply(), azure_api_key, azure_endpoint, azure_model)
-        
-        # print(structured_data)
-        
-        proposed_code_changes = ProposedCodeChanges(
-            path="docs/dagger/dagger-hackathon/src/addition.py", # TODO: ask LLM to return path
-            line="2", # TODO: ask LLM to return line number
-            change="return a + b"
-        )
+        proposed_code_changes = await self.CreateStructuredResponse(directory_arg, await analyze_results.last_reply(), azure_api_key, azure_endpoint, azure_model)
+                
+        # proposed_code_changes = ProposedCodeChanges(
+        #     path="docs/dagger/dagger-hackathon/src/addition.py",
+        #     line="2",
+        #     change="return a + b"
+        # )
 
-        # for proposed_code_changes in proposed_code_changes:
-        # .... put below in loop above
         created_pr_suggestions = await self.CreateCodeSuggestion(directory_arg, github_token, pr_metadata, proposed_code_changes)
 
-        return AgentResponses(
-            pr_metadata=pr_metadata,
-            pr_suggestions=created_pr_suggestions
-        )
+        return str(created_pr_suggestions)
         
