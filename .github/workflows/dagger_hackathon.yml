@@ -1,7 +1,9 @@
 name: dagger_hackathon  # Name of the workflow
 
-on: 
-  workflow_dispatch
+on:
+    push:
+        branches:
+        - feature/dagger-hackathon-line-extraction
 
 jobs:
   dagger-plan:
