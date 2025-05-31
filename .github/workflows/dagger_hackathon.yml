@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest  # Define the runner environment
 
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.DAGGER_HACKATHON_GITHUB_TOKEN }}
       OPENAI_AZURE_VERSION: "2024-12-01-preview"
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       OPENAI_MODEL: "gpt-4o"
