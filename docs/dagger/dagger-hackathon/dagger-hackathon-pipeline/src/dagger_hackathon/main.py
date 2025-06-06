@@ -1,10 +1,10 @@
 import dagger
-from dagger import dag, field, function, object_type
-import os
 import json
+from dagger import dag, field, function, object_type, DefaultPath
+from typing import Annotated
 
 @object_type
-class UnitTestResult:
+class UnitTestResults:
     result: str = field()
     success: str = field()
 
@@ -13,96 +13,43 @@ class PrMetadataResult:
     pr_number: str = field()
     commit_id: str = field()
 
-# needs to be list of ProposedCodeChanges - see https://docs.dagger.io/api/custom-types/
 @object_type
-class ProposedCodeChanges:
+class ProposedCodeChange:
     path: str = field()
     line: str = field()
     change: str = field()
 
 # same comment as above
 @object_type
-class GitHubPrSuggestionResults:
+class GitHubPrSuggestionResult:
     body: str = field()
     comment_url: str = field()
     
 @object_type
-class AgentResponses:
+class AgentResponse:
     pr_metadata: PrMetadataResult = field()
-    pr_suggestions: GitHubPrSuggestionResults = field()
+    pr_suggestions: GitHubPrSuggestionResult = field()
 
 @object_type
 class DaggerHackathon:
+    source: dagger.Directory
+    github_branch: str
+    github_repo: str
+    github_token: dagger.Secret
+    azure_api_key: dagger.Secret
+    azure_endpoint: str
+    azure_model: str = "gpt-4o"
     @function
-    async def CreateStructuredResponse(
-        self, 
-        directory_arg: dagger.Directory, 
-        response_to_structure: str,
-        azure_api_key: dagger.Secret,
-        azure_endpoint: str,
-        azure_model: str
-    ) -> ProposedCodeChanges:
-        """Structure LLM Response"""
-
-        command = [
-            "python", "dagger-hackathon-pipeline/src/dagger_hackathon/structure_data.py",
-            "--response", response_to_structure,
-            "--endpoint", azure_endpoint,
-            "--model", azure_model
-        ]
-        container = (
-            dag.container()
-            .from_("python:3.11")
-            .with_mounted_directory("/app", directory_arg)
-            .with_workdir("/app")
-            .with_secret_variable("AZURE_OPENAI_API_KEY", azure_api_key)
-            .with_exec(["pip", "install", "--upgrade", "pip"])
-            .with_exec(["pip", "install", "openai==1.82.0", "pydantic==2.11.5"])  
-            .with_exec(command)
-        )
-
-        output = await container.stdout()
-
-        response_data = json.loads(output)
-
-        output = ProposedCodeChanges(
-            path=response_data["path"],
-            line=response_data["line"],
-            change=response_data["change"]
-        )
-        
-        return output
-
-    
-    @function
-    async def RunUnitTests(self, directory_arg: dagger.Directory) -> UnitTestResult:
-        """Run all unit tests and return the results"""
-
-        container = (
-            dag.container()
-            .from_("python:3.11")
-            .with_mounted_directory("/app", directory_arg)
-            .with_workdir("/app")
-            .with_exec(["sh", "-c", "python -m unittest discover tests -v || true"])
-        )
-        
-        result = await container.stderr()
-
-        if "OK" in result:
-            success = "true"
-        else:
-            success = "false"
-        
-        return UnitTestResult(result=result, success=success)
-        
-    @function
-    async def GetPrMetadata(self, github_branch: str, github_repo: str, github_token: dagger.Secret) -> PrMetadataResult:
-        """Get the PR number and commit ID"""
+    async def GetPrMetadata(self) -> PrMetadataResult:
+        """Get the PR number and commit ID
+        Returns:
+            PrMetadataResult
+        """
 
         base_container = (
             dag.container()
             .from_("alpine:latest")
-            .with_secret_variable("GITHUB_TOKEN", github_token)
+            .with_secret_variable("GITHUB_TOKEN", self.github_token)
             .with_exec(["apk", "add", "--no-cache", "curl", "bash", "git", "openssl"])
             .with_exec([
                 "sh", "-c",
@@ -117,45 +64,128 @@ class DaggerHackathon:
             base_container
             .with_exec([
                 "gh", "pr", "list",
-                "--head", f"{github_branch}",
+                "--head", f"{self.github_branch}",
                 "--limit", "1",
                 "--json", "number",
                 "--jq", ".[0].number",
-                "--repo", f"{github_repo}"
+                "--repo", f"{self.github_repo}"
             ])
             .stdout()
         )
 
-        commit_id = await (
+        commit_logs = await (
             base_container
             .with_exec([
                 "gh", "pr", "view",
                 pr_number.strip(),
-                "--json", "headRefOid",
-                "-q", ".headRefOid",
-                "--repo", f"{github_repo}"
+                "--json", "commits",
+                "--repo", f"{self.github_repo}"
             ])
             .stdout()
         )
 
-        output = PrMetadataResult(pr_number=pr_number.strip(), commit_id=commit_id.strip())
+        commit_logs_json = json.loads(commit_logs)
+
+        head_commit_id = commit_logs_json["commits"][-1]["oid"]
         
-        return output
+        return PrMetadataResult(pr_number=pr_number.strip(), commit_id=head_commit_id.strip())
 
     @function
-    async def CreateCodeSuggestion(
+    async def RunUnitTests(self) -> UnitTestResults:
+        """Run all unit tests and return the results
+        Returns:
+            UnitTestResults
+        """
+
+        container = (
+            dag.container()
+            .from_("python:3.11")
+            .with_mounted_directory("/src", self.source)
+            .with_workdir("/src")
+            .with_exec(["sh", "-c", "python -m unittest discover tests -v || true"])
+        )
+        
+        unit_test_results = await container.stderr()
+
+        if "OK" in unit_test_results:
+            success = "true"
+        else:
+            success = "false"
+        
+        return UnitTestResults(result=unit_test_results, success=success)
+
+    @function
+    async def StructureLlmResponse(
+        self,
+        response_to_structure: str
+    ) -> ProposedCodeChange:
+        """Structure LLM Response
+        Args:
+            response_to_structure: LLM response to structure
+        Returns:
+            ProposedCodeChange
+        """
+
+        command_to_execute = [
+            "python", "dagger-hackathon-pipeline/src/dagger_hackathon/structure_llm_response.py",
+            "--response", response_to_structure,
+            "--endpoint", self.azure_endpoint,
+            "--model", self.azure_model
+        ]
+        container = (
+            dag.container()
+            .from_("python:3.11")
+            .with_mounted_directory("/app", self.source)
+            .with_workdir("/app")
+            .with_secret_variable("AZURE_OPENAI_API_KEY", self.azure_api_key)
+            .with_exec(["pip", "install", "--upgrade", "pip"])
+            .with_exec(["pip", "install", "openai==1.82.0", "pydantic==2.11.5"])  
+            .with_exec(["sh", "-c", "export $(grep -v '^#' .env | xargs)"])
+            .with_exec(["sh", "-c", "echo $OPENAI_API_KEY"])
+            .with_exec(command_to_execute)
+        )
+
+        structured_results = await container.stdout()
+
+        structured_results_json = json.loads(structured_results)
+        
+        return ProposedCodeChange(
+            path=structured_results_json["path"],
+            line=structured_results_json["line"],
+            change=structured_results_json["change"]
+        )
+
+    @function
+    async def CreatePrSuggestion(
         self, 
-        directory_arg: dagger.Directory, 
-        github_token: dagger.Secret, 
         pr_metadata: PrMetadataResult, 
-        proposed_code_changes: ProposedCodeChanges,
-        ) -> GitHubPrSuggestionResults:
-        """Create a code suggestion for a PR"""
+        proposed_code_changes: ProposedCodeChange,
+        ) -> GitHubPrSuggestionResult:
+        """Create a code suggestion for a PR
+        Args:
+            pr_metadata: PR Metadata
+            proposed_code_changes: Proposed Code Changes
+        Returns:
+            GitHubPrSuggestionResult
+        """
+
+        command_to_execute = [
+            "gh", "api",
+            "--method", "POST",
+            "-H", "Accept: application/vnd.github+json",
+            "-H", "X-GitHub-Api-Version: 2022-11-28",
+            f"/repos/codetocloudorg/platform-engineering/pulls/{pr_metadata.pr_number}/comments",
+            "-f", f"body=```suggestion\n{proposed_code_changes.change}\n```",
+            "-f", f"commit_id={pr_metadata.commit_id}",
+            "-f", f"path={proposed_code_changes.path}",
+            "-F", f"line={proposed_code_changes.line}",
+            "-f", "side=RIGHT"
+            ]
 
         container = (
             dag.container()
             .from_("alpine:latest")
-            .with_secret_variable("GITHUB_TOKEN", github_token)
+            .with_secret_variable("GITHUB_TOKEN", self.github_token)
             .with_exec(["apk", "add", "--no-cache", "curl", "bash", "git", "openssl"])
             .with_exec([
                 "sh", "-c",
@@ -164,47 +194,30 @@ class DaggerHackathon:
                     "| tar -xz && mv gh_2.70.0_linux_amd64/bin/gh /usr/local/bin/"
                 )
             ])
-            .with_exec([
-                "gh", "api",
-                "--method", "POST",
-                "-H", "Accept: application/vnd.github+json",
-                "-H", "X-GitHub-Api-Version: 2022-11-28",
-                f"/repos/codetocloudorg/platform-engineering/pulls/{pr_metadata.pr_number}/comments",
-                "-f", f"body=```suggestion\n{proposed_code_changes.change}\n```",
-                "-f", f"commit_id={pr_metadata.commit_id}",
-                "-f", f"path={proposed_code_changes.path}",
-                "-F", f"line={proposed_code_changes.line}",
-                "-f", "side=RIGHT"
-            ])
+            .with_exec(command_to_execute)
         )
 
-        output = await container.stdout()
+        pr_comment_logs = await container.stdout()
 
-        response_data = json.loads(output)
+        pr_comment_logs_json = json.loads(pr_comment_logs)
 
-        output = GitHubPrSuggestionResults(
-            body=response_data["body"],
-            comment_url=response_data["html_url"]
+        return GitHubPrSuggestionResult(
+            body=pr_comment_logs_json["body"],
+            comment_url=pr_comment_logs_json["html_url"]
         )
-
-        return output
 
     @function
-    async def DebugUnitTestAgent(
-        self, 
-        directory_arg: dagger.Directory, 
-        github_branch: str, 
-        github_repo: str, 
-        github_token: dagger.Secret,
-        azure_api_key: dagger.Secret,
-        azure_endpoint: str,
-        azure_model: str
+    async def FixMyTestsAgent(
+        self
         ) -> str:
-        """Debug the unit test agent"""
+        """Orchestrator Agent to Debug Unit Tests
+        Returns:
+            AgentResponse
+        """
 
-        pr_metadata = await self.GetPrMetadata(github_branch, github_repo, github_token)
+        pr_metadata = await self.GetPrMetadata()
 
-        unit_test_results = await self.RunUnitTests(directory_arg)
+        unit_test_results = await self.RunUnitTests()
 
         if unit_test_results.success == "true":
             return f"All unit tests passed - no code changes needed"
@@ -216,7 +229,7 @@ class DaggerHackathon:
                 "unit_test_runner",
                 dag.container()
                 .from_("python:3.11")
-                .with_mounted_directory("/app", directory_arg)
+                .with_mounted_directory("/app", self.source)
                 .with_workdir("/app"),
                 "a container used to troubleshoot failing unit tests"
             )
@@ -228,18 +241,22 @@ class DaggerHackathon:
         analyze_results = (
             dag.llm()
             .with_env(environment)
-            .with_prompt_file(dag.current_module().source().file("test_debug_prompt.txt"))
+            .with_prompt_file(dag.current_module().source().file("debug_unit_test_prompt.md"))
         )
 
-        proposed_code_changes = await self.CreateStructuredResponse(directory_arg, await analyze_results.last_reply(), azure_api_key, azure_endpoint, azure_model)
-                
-        # proposed_code_changes = ProposedCodeChanges(
-        #     path="docs/dagger/dagger-hackathon/src/addition.py",
-        #     line="2",
-        #     change="return a + b"
-        # )
+        analyzed_results_output = await analyze_results.last_reply()
 
-        created_pr_suggestions = await self.CreateCodeSuggestion(directory_arg, github_token, pr_metadata, proposed_code_changes)
+        proposed_code_change = await self.StructureLlmResponse(
+            await analyze_results.last_reply()
+        )
 
-        return str(created_pr_suggestions)
+        created_pr_suggestion = await self.CreatePrSuggestion(
+            pr_metadata, 
+            proposed_code_change
+        )
+
+        return str(AgentResponse(
+            pr_metadata=pr_metadata,
+            pr_suggestions=created_pr_suggestion
+        ))
         

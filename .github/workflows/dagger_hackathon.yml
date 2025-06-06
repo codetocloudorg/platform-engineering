@@ -1,37 +1,51 @@
-name: dagger_hackathon  # Name of the workflow
+name: dagger_hackathon
 
 on:
-    push:
-        branches:
-        - feature/dagger-hackathon-line-extraction
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
 
 jobs:
-  dagger-plan:
-    runs-on: ubuntu-latest  # Define the runner environment
+  dagger-run-unit-tests:
+    runs-on: ubuntu-latest
 
     env:
       GITHUB_TOKEN: ${{ secrets.DAGGER_HACKATHON_GITHUB_TOKEN }}
-      OPENAI_AZURE_VERSION: "2024-12-01-preview"
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-      OPENAI_MODEL: "gpt-4o"
-      OPENAI_BASE_URL: "https://vdfvdf.openai.azure.com/"
+      CURRENT_BRANCH: ${{ github.head_ref }}
 
     steps:
-      - name: Checkout repository  # Fetch the repository code
+      - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Install Dagger CLI  # Download and install the Dagger CLI
+      - name: Install Dagger CLI
         run: |
           curl -fsSL https://dl.dagger.io/dagger/install.sh | BIN_DIR=$HOME/.local/bin sh
-          echo "$HOME/.local/bin" >> $GITHUB_PATH  # Add Dagger to the system PATH
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
 
-      - name: Run Dagger plan
+      - name: Create .env file
         working-directory: docs/dagger/dagger-hackathon/
         run: |
-            dagger call debug-unit-test-agent --directory-arg="." \
-            --github-token="GITHUB_TOKEN" \
-            --github-branch=feature/dagger-hackathon-line-extraction \
-            --github-repo=codetocloudorg/platform-engineering \
-            --azure-model="gpt-4o" \
-            --azure-endpoint="https://vdfvdf.openai.azure.com/" \
-            --azure-api-key="OPENAI_API_KEY"
+          cat <<EOF > .env
+          OPENAI_BASE_URL=https://vdfvdf.openai.azure.com/
+          OPENAI_MODEL=gpt-4o
+          OPENAI_API_KEY=${OPENAI_API_KEY}
+          OPENAI_AZURE_VERSION=2024-12-01-preview
+          GITHUB_TOKEN=${GITHUB_TOKEN}
+          EOF
+
+      - name: Dagger Run Unit Tests
+        working-directory: docs/dagger/dagger-hackathon/
+        env:
+          DAGGER_SECRET_GITHUB_TOKEN: ${{ secrets.DAGGER_HACKATHON_GITHUB_TOKEN }}
+        run: |
+          export AZURE_OPENAI_API_KEY="${OPENAI_API_KEY}"
+          export AZURE_OPENAI_ENDPOINT="https://vdfvdf.openai.azure.com/"
+          dagger call \
+            --source="." \
+            --github_branch="${CURRENT_BRANCH}" \
+            --github_repo="codetocloudorg/platform-engineering" \
+            --github_token=DAGGER_SECRET_GITHUB_TOKEN \
+            --azure_api_key="OPENAI_API_KEY" \
+            --azure_endpoint="https://vdfvdf.openai.azure.com/" \
+            fix-my-tests-agent
