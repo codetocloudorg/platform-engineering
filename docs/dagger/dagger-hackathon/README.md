@@ -116,6 +116,14 @@ The below steps will take you through making a breaking change to a file in our 
   ```bash
   export GITHUB_TOKEN="XXX"
   ```
+The Azure OpenAI details can be found below:
+
+```bash
+  export AZURE_API_KEY="FT0Dd0iIglkzGbizOMUp79k0Frea7neDtVXRhFZ5m39CJJJcdfxFJQQJ99BEACYeBjFXJ3w3AAABACO"
+  export AZURE_API_ENDPOINT="https://vdfvdf.openai.azure.com/"
+```
+
+> **Note:** The full API key will be provided during the hackathon.
 
 - Put in your values and run in CLI:
   ```bash
