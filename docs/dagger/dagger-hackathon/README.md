@@ -1,5 +1,21 @@
 # 🧑‍💻 Dagger Hackathon: June 18th, 2025
 
+![image](./assets/hack-overview.jpeg)
+
+👀 Here’s the end-to-end flow:
+
+1️⃣ Dev makes a change 🛠️
+
+2️⃣ Pushes it to GitHub & opens a PR 🔁
+
+3️⃣ GitHub Actions pipeline is triggered ⚙️
+
+4️⃣ Unit tests run… and fail 🚫
+
+5️⃣ Dagger agent inspects the issue using smart tools 🔍
+
+6️⃣ A helpful comment appears on the PR 💬
+
 Welcome to the Dagger hackathon hosted by the [CNCF](https://community.cncf.io/cloud-native-calgary/) and [Code to Cloud](https://www.codetocloud.io/)! By the end of this hack, you will have a good understanding of how to use Dagger and the various use cases it can help support.
 
 ## 🎯 Expected Outcomes
