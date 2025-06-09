@@ -16,7 +16,33 @@ Welcome to the Dagger hackathon hosted by the [CNCF](https://community.cncf.io/c
 
 ## ✅ Prerequisites
 
-There are two options for this hackathon. We highly recommend the first option to avoid dependency issues.
+## Dagger Hackathon: Get Ready!
+
+To ensure a smooth and successful hackathon experience, please complete the
+following checklist *before* the event. This will help you avoid common setup
+issues and maximize your hacking time!
+
+## Pre-Hackathon Readiness Checklist
+
+* [ ] **GitHub Account:** Have a personal GitHub account ready and accessible.
+* [ ] **Internet Connectivity:** Ensure you have a stable internet connection.
+* [ ] **Python 3.11+:** Install Python 3.11 or a newer version. Verify installation
+by running `python3.11 --version` (or `python --version`).
+* [ ] **Docker Desktop / Container Runtime:** Install and start Docker Desktop
+(or Colima/Podman). Confirm it's running.
+* [ ] **Dagger CLI:** Install the Dagger CLI. Verify installation by running
+`dagger version`.
+* [ ] **GitHub Personal Access Token:** Generate a GitHub Personal Access
+Token with `repo` scope (or `public_repo` for public repositories) and `workflow`
+permissions. Keep it secure!
+* [ ] **Fork the Repository:** Create a fork of this hackathon repository to your
+personal GitHub account.
+
+If you encounter any issues during this pre-check, please refer to the
+[Troubleshooting Guide](#-troubleshooting-guide) in this README or reach out to
+the hackathon organizers for assistance *before* the event starts.
+
+## There are two options for this hackathon. We highly recommend the first option to avoid dependency issues.
 
 ### 1️⃣ Option 1: Github Codespace
 
