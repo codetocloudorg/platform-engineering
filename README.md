@@ -108,8 +108,7 @@ Platform Engineering encompasses several key components:
 - **[Cloud-Native Architectures](docs/cloud_native.md)**
 - **[Internal Development Platforms](docs/internal_development_platforms.md)**
 - **[Kubernetes](docs/kubernetes.md)**
-- **[Podcasts](docs/podcasts.md)**
-- **[Developer Experience (Local Platform Engineering Toolset)](docs/development_setup.md)**
+- **[AI Infrastructure](docs/ai_infrastructure.md)**
 
 ### 🏗️ Platform Engineering Reference Architecture
 
