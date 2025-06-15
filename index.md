@@ -94,8 +94,7 @@ Platform Engineering encompasses several key components:
 - **[Cloud-Native Architectures](docs/cloud_native.md)**
 - **[Internal Development Platforms](docs/internal_development_platforms.md)**
 - **[Kubernetes](docs/kubernetes.md)**
-- **[Podcasts](docs/podcasts.md)**
-- **[Developer Experience (Local Platform Engineering Toolset)](docs/development_setup.md)**
+- **[AI Infrastructure](docs/ai_infrastructure.md)**
 
 ### 🏗️ Platform Engineering Reference Architecture
 
@@ -130,8 +129,8 @@ Check out our community-curated section on certification paths designed to suppo
 
 ## 🤝 Contributing
 
-We welcome contributions from everyone. Feel free to [open issues](https://github.com/codetocloudinc/platform-engineering-hub/issues), [submit pull requests](https://github.com/codetocloudinc/platform-engineering-hub/pulls), and join discussions to help us improve and expand this resource.We welcome contributions from everyone. Feel free to [open issues](https://github.com/codetocloudinc/platform-engineering-hub/issues), [submit pull requests](https://github.com/codetocloudinc/platform-engineering-hub/pulls), and join discussions to help us improve and expand this resource.
+We welcome contributions from everyone. Feel free to [open issues](https://github.com/codetocloudinc/platform-engineering-hub/issues), [submit pull requests](https://github.com/codetocloudinc/platform-engineering-hub/pulls), and join discussions to help us improve and expand this resource.
 
-Review our [contributing policy here](/CONTRIBUTING.md).Review our [contributing policy here](/CONTRIBUTING.md).
+Review our [contributing policy here](/CONTRIBUTING.md).
 
 Thank you for being a part of our journey!

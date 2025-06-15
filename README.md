@@ -143,8 +143,8 @@ Check out our community-curated section on certification paths designed to suppo
 
 ## 🤝 Contributing
 
-We welcome contributions from everyone. Feel free to [open issues](https://github.com/codetocloudinc/platform-engineering-hub/issues), [submit pull requests](https://github.com/codetocloudinc/platform-engineering-hub/pulls), and join discussions to help us improve and expand this resource.We welcome contributions from everyone. Feel free to [open issues](https://github.com/codetocloudinc/platform-engineering-hub/issues), [submit pull requests](https://github.com/codetocloudinc/platform-engineering-hub/pulls), and join discussions to help us improve and expand this resource.
+We welcome contributions from everyone. Feel free to [open issues](https://github.com/codetocloudinc/platform-engineering-hub/issues), [submit pull requests](https://github.com/codetocloudinc/platform-engineering-hub/pulls), and join discussions to help us improve and expand this resource.
 
-Review our [contributing policy here](/CONTRIBUTING.md).Review our [contributing policy here](/CONTRIBUTING.md).
+Review our [contributing policy here](/CONTRIBUTING.md).
 
 Thank you for being a part of our journey!
