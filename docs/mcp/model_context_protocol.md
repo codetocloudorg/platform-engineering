@@ -15,7 +15,7 @@ The **Model Context Protocol (MCP)** is an open protocol that standardizes how a
 ## 🏗️ MCP Architecture
 
 <p align="center">
-  <img src="../../images/mpc_architecture.png" alt="MCP Architecture Diagram" width="40%">
+  <img src="https://codetocloudorg.github.io/platform-engineering/images/mpc_architecture.png" alt="MCP Architecture Diagram" width="40%">
 </p>
 
 MCP uses a client-server architecture, allowing host applications to connect to multiple servers and data sources:
