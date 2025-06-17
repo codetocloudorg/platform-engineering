@@ -67,7 +67,7 @@ class DaggerHackathon:
                 "--head", f"{self.github_branch}",
                 "--limit", "1",
                 "--json", "number",
-                "--jq", ".[0].number",
+                "--jq", ".[].number",
                 "--repo", f"{self.github_repo}"
             ])
             .stdout()
