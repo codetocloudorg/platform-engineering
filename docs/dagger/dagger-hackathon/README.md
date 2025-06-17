@@ -2,7 +2,7 @@
 
 Welcome to the Dagger hackathon hosted by the [CNCF](https://community.cncf.io/cloud-native-calgary/) and [Code to Cloud](https://www.codetocloud.io/)! By the end of this hack, you will have a good understanding of how to use Dagger and the various use cases it can help support.
 
-👀 Here’s the end-to-end flow:
+**👀 Here’s the end-to-end flow:**
 
 ![image](./assets/hack-overview.jpeg)
 
@@ -16,7 +16,7 @@ Welcome to the Dagger hackathon hosted by the [CNCF](https://community.cncf.io/c
 
 5️⃣ Dagger agent inspects the issue using smart tools 🔍
 
-6️⃣ A helpful comment appears on the PR 💬
+6️⃣ A suggested code change appears on the PR 💬
 
 ## 🎯 Expected Outcomes
 
@@ -116,7 +116,7 @@ The below steps will take you through making a breaking change to a file in our 
   ```
   and confirm it fails  
 - Push the modified `addition.py` to your new feature branch  
-- In the GitHub UI, open a PR on the feature branch and compare to `main`
+- In the GitHub UI, **open a PR** on the feature branch and compare to `main` (make sure to compare to `main` and not forked `main`)
 
 ---
 
@@ -125,21 +125,16 @@ The below steps will take you through making a breaking change to a file in our 
 <img src="./assets/spongebob_meme.jpg" alt="spongebob" width="400"/>
 
 - Rename `docs/dagger/dagger-hackathon/.env-example` to `.env`  
-- Populate the placeholder keys with real values (we will provide for Hackathon day)  
+- Populate the placeholder keys with real values (we will provide the full API key during the hackathon)
+  - `OPENAI_API_KEY`: FT0Dd0iIglkzGbizOMUp79k0Frea7neDtVXRhFZ5m39CJJJcdfxFJQQJ99BEACYeBjFXJ3w3AAABACO
+  - `OPENAI_BASE_URL`: https://vdfvdf.openai.azure.com/
 - Create environment variables for `GITHUB_TOKEN` and `AZURE_OPENAI_API_KEY`
-  A GitHub Token can be created in GitHub under Settings → Developer Settings → Create a classic token  
+  A GitHub Token can be created in GitHub under Settings → Developer Settings → Create a classic token (you must have repo and workflow scopes) 
   Example:
   ```bash
   export GITHUB_TOKEN="XXX"
   ```
-The Azure OpenAI details can be found below:
-
-- Azure OpenAI API Key: FT0Dd0iIglkzGbizOMUp79k0Frea7neDtVXRhFZ5m39CJJJcdfxFJQQJ99BEACYeBjFXJ3w3AAABACO
-- Azure OpenAI Endpoint: https://vdfvdf.openai.azure.com/
-
-> **Note:** The full API key will be provided during the hackathon.
-
-- Put in your values and run in CLI:
+- Fill in values for `github_branch`, `github_repo`, and `azure_openai_endpoint` (same as `OPENAI_BASE_URL`) and run in CLI:
   ```bash
   dagger call \
     --source="." \
@@ -192,8 +187,8 @@ Being able to navigate and explore logs in Dagger Cloud is a great skill to have
 
 ### ✅ Step 8: Trigger GitHub Action
 
-- Delete the comment the Agent left on the PR in Step 6  
-- [Create GitHub secrets](https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions#creating-secrets-for-a-repository) for everything in `.env` and name them `DAGGER_HACKATHON_GITHUB_TOKEN` and `OPENAI_API_KEY` for the GitHub token and Azure OpenAI API key respectively.
+- Delete any comments the Agent left on the PR in Step 6  
+- [Create GitHub secrets](https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions#creating-secrets-for-a-repository) for `DAGGER_CLOUD_TOKEN`, `DAGGER_HACKATHON_GITHUB_TOKEN` (what was `GITHUB_TOKEN`), and `OPENAI_API_KEY`.
 - Make sure to update your GitHub Action to trigger on a pull request instead of a manual trigger.
 
 Update the trigger from this:
@@ -211,7 +206,9 @@ on:
     types: [opened, synchronize, reopened]
 ```
 
-- Push your changes to Git and navigate back to your forked repo to see the GitHub Action running
+- Push your changes to Git
+
+- Now break the code in a different way in `addition.py` and push those changes. You should see a action running.
 
 ![image](./assets/run_unit_tests.png)
 
