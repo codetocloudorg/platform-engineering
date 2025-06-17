@@ -1,7 +1,9 @@
 name: dagger_hackathon
 
 on:
-  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
 
 jobs:
   dagger-run-unit-tests:
@@ -11,6 +13,8 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.DAGGER_HACKATHON_GITHUB_TOKEN }}
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       CURRENT_BRANCH: ${{ github.head_ref }}
+      CURRENT_REPO: ${{ github.repository }}
+      DAGGER_CLOUD_TOKEN: ${{ secrets.DAGGER_CLOUD_TOKEN }}
 
     steps:
       - name: Checkout repo
@@ -29,21 +33,19 @@ jobs:
           OPENAI_MODEL=gpt-4o
           OPENAI_API_KEY=${OPENAI_API_KEY}
           OPENAI_AZURE_VERSION=2024-12-01-preview
-          GITHUB_TOKEN=${GITHUB_TOKEN}
           EOF
 
       - name: Dagger Run Unit Tests
         working-directory: docs/dagger/dagger-hackathon/
-        env:
-          DAGGER_SECRET_GITHUB_TOKEN: ${{ secrets.DAGGER_HACKATHON_GITHUB_TOKEN }}
         run: |
           export AZURE_OPENAI_API_KEY="${OPENAI_API_KEY}"
-          export AZURE_OPENAI_ENDPOINT="https://vdfvdf.openai.azure.com/"
+          export GITHUB_TOKEN="${GITHUB_TOKEN}"
+          export DAGGER_CLOUD_TOKEN="${DAGGER_CLOUD_TOKEN}"
           dagger call \
             --source="." \
             --github_branch="${CURRENT_BRANCH}" \
-            --github_repo="codetocloudorg/platform-engineering" \
-            --github_token=DAGGER_SECRET_GITHUB_TOKEN \
-            --azure_api_key="OPENAI_API_KEY" \
-            --azure_endpoint="https://vdfvdf.openai.azure.com/" \
+            --github_repo="${CURRENT_REPO}" \
+            --github_token=GITHUB_TOKEN \
+            --azure_openai_api_key=AZURE_OPENAI_API_KEY \
+            --azure_openai_endpoint="https://vdfvdf.openai.azure.com/" \
             fix-my-tests-agent
