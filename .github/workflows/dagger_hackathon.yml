@@ -1,9 +1,7 @@
 name: dagger_hackathon
 
 on:
-  pull_request:
-    branches: [main]
-    types: [opened, synchronize, reopened]
+  workflow_dispatch:
 
 jobs:
   dagger-run-unit-tests:
