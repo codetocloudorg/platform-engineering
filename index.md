@@ -88,7 +88,7 @@ Platform Engineering encompasses several key components:
 - **[Infrastructure as Code (IaC)](docs/iac.md)**
 - **[Continuous Integration and Delivery (CI/CD)](docs/ci_cd.md)**
 - **[Codespaces](docs/codespaces.md)**
-- **[Monitoring and Observability](docs/monitoring.md)**
+- **[Monitoring and Observability](docs/observability/README.md)**
 - **[Security and Compliance](docs/security.md)**
 - **[Automation and Scripting](docs/automation.md)**
 - **[Cloud-Native Architectures](docs/cloud_native.md)**
