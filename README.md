@@ -1,20 +1,20 @@
 <!-- Centered image and badges -->
 <p align="center">
-  <img src="https://github.com/codetocloudinc/artwork/blob/main/examples/images/current/code_to_cloud_1920_x_1080_desktop.png?raw=true" alt="Code To Cloud Logo" width="80%" height="90%" />
+  <img src="https://github.com/codetocloudorg/artwork/blob/main/examples/images/current/code_to_cloud_1920_x_1080_desktop.png?raw=true" alt="Code To Cloud Logo" width="80%" height="90%" />
 </p>
 
 <p align="center">
-  <a href="https://github.com/codetocloudinc/platform-engineering-hub">
-    <img src="https://img.shields.io/github/stars/codetocloudinc/platform-engineering-hub?style=social" alt="GitHub stars">
+  <a href="https://github.com/codetocloudorg/platform-engineering">
+    <img src="https://img.shields.io/github/stars/codetocloudorg/platform-engineering?style=social" alt="GitHub stars">
   </a>
-  <a href="https://github.com/codetocloudinc/platform-engineering-hub/fork">
-    <img src="https://img.shields.io/github/forks/codetocloudinc/platform-engineering-hub?style=social" alt="GitHub forks">
+  <a href="https://github.com/codetocloudorg/platform-engineering/fork">
+    <img src="https://img.shields.io/github/forks/codetocloudorg/platform-engineering?style=social" alt="GitHub forks">
   </a>
-  <a href="https://github.com/codetocloudinc/platform-engineering-hub/issues">
-    <img src="https://img.shields.io/github/issues/codetocloudinc/platform-engineering-hub?style=social" alt="GitHub issues">
+  <a href="https://github.com/codetocloudorg/platform-engineering/issues">
+    <img src="https://img.shields.io/github/issues/codetocloudorg/platform-engineering?style=social" alt="GitHub issues">
   </a>
-  <a href="https://github.com/codetocloudinc/platform-engineering-hub/graphs/contributors">
-    <img src="https://img.shields.io/github/contributors/codetocloudinc/platform-engineering-hub?style=social" alt="GitHub contributors">
+  <a href="https://github.com/codetocloudorg/platform-engineering/graphs/contributors">
+    <img src="https://img.shields.io/github/contributors/codetocloudorg/platform-engineering?style=social" alt="GitHub contributors">
   </a>
 </p>
 
@@ -22,10 +22,21 @@
 
 ## 📑 Table of Contents
 
-- [Project Overview](#-project-overview)
-- [Platform Engineering Knowledge Base](#-platform-engineering-knowledge-base)
-- [Learning & Community](#-learning--community)
-- [Contributing](#-contributing)
+- [🏢 Project Overview](#-project-overview)
+  - [🎉 Acknowledgements](#-acknowledgements)
+  - [✍️ Author](#️-author)
+  - [📈 Project Evolution](#-project-evolution)
+  - [🚀 Focus Areas](#-focus-areas)
+  - [🛠️ Tools and Technologies](#️-tools-and-technologies)
+- [📚 Platform Engineering Knowledge Base](#-platform-engineering-knowledge-base)
+  - [🌐 What is Platform Engineering?](#-what-is-platform-engineering)
+  - [🚀 Why Platform Engineering?](#-why-platform-engineering)
+  - [🛠️ Platform Tooling Landscape](#️-platform-tooling-landscape)
+  - [🔑 Key Components](#-key-components-of-platform-engineering)
+  - [🏗️ Reference Architecture](#️-platform-engineering-reference-architecture)
+  - [👩‍💻 The Role of a Platform Engineer](#️-the-role-of-a-platform-engineer)
+- [🎓 Learning & Community](#-learning--community)
+- [🤝 Contributing](#-contributing)
 
 ---
 
@@ -57,7 +68,18 @@ This project is not vendor-sponsored and utilizes free, community, and open-sour
 
 ---
 
-## 📚 Platform Engineering Knowledge Base
+## � Quick Start
+
+New to Platform Engineering? Start here:
+
+1. **📖 Learn the Basics**: Read [What is Platform Engineering?](#-what-is-platform-engineering)
+2. **🏗️ Explore Architecture**: Check out our [Reference Architectures](#️-platform-engineering-reference-architecture)
+3. **🛠️ Get Hands-On**: Try our [Development Setup Guide](docs/development_setup.md)
+4. **🎓 Level Up**: Explore [Certification Pathways](docs/certifications.md)
+
+---
+
+## �📚 Platform Engineering Knowledge Base
 
 ### 🌐 What is Platform Engineering?
 
@@ -97,17 +119,22 @@ For a deeper dive into the current state of platform engineering and its tooling
 
 ### 🔑 Key Components of Platform Engineering
 
-Platform Engineering encompasses several key components:
+Platform Engineering encompasses several interconnected components that work together to create a seamless developer experience:
 
+#### 🏗️ Infrastructure & Deployment
 - **[Infrastructure as Code (IaC)](docs/iac.md)**
 - **[Continuous Integration and Delivery (CI/CD)](docs/ci_cd.md)**
+- **[Kubernetes](docs/kubernetes.md)**
+- **[Cloud-Native Architectures](docs/cloud_native.md)**
+
+#### 🛠️ Developer Experience
 - **[Codespaces](docs/codespaces.md)**
+- **[Internal Development Platforms](docs/internal_development_platforms.md)**
+- **[Automation and Scripting](docs/automation.md)**
+
+#### 🔍 Operations & Security
 - **[Monitoring and Observability](docs/monitoring.md)**
 - **[Security and Compliance](docs/security.md)**
-- **[Automation and Scripting](docs/automation.md)**
-- **[Cloud-Native Architectures](docs/cloud_native.md)**
-- **[Internal Development Platforms](docs/internal_development_platforms.md)**
-- **[Kubernetes](docs/kubernetes.md)**
 - **[AI Infrastructure](docs/ai_infrastructure.md)**
 
 ### 🏗️ Platform Engineering Reference Architecture
@@ -143,8 +170,8 @@ Check out our community-curated section on certification paths designed to suppo
 
 ## 🤝 Contributing
 
-We welcome contributions from everyone. Feel free to [open issues](https://github.com/codetocloudinc/platform-engineering-hub/issues), [submit pull requests](https://github.com/codetocloudinc/platform-engineering-hub/pulls), and join discussions to help us improve and expand this resource.We welcome contributions from everyone. Feel free to [open issues](https://github.com/codetocloudinc/platform-engineering-hub/issues), [submit pull requests](https://github.com/codetocloudinc/platform-engineering-hub/pulls), and join discussions to help us improve and expand this resource.
+We welcome contributions from everyone. Feel free to [open issues](https://github.com/codetocloudorg/platform-engineering/issues), [submit pull requests](https://github.com/codetocloudorg/platform-engineering/pulls), and join discussions to help us improve and expand this resource.
 
-Review our [contributing policy here](/CONTRIBUTING.md).Review our [contributing policy here](/CONTRIBUTING.md).
+Review our [contributing policy here](/CONTRIBUTING.md).
 
 Thank you for being a part of our journey!

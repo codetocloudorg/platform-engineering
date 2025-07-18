@@ -1,0 +1,23 @@
+{
+  // Specifies the default extensions to be installed automatically in GitHub Codespaces
+  "github.codespaces.defaultExtensions": [
+    "ms-azuretools.vscode-docker", // Docker extension for managing containers and images directly from VS Code
+    "HashiCorp.terraform",         // Terraform extension for working with Infrastructure as Code (IaC) configurations
+    "ms-azuretools.vscode-bicep",  // Bicep extension for authoring and managing Azure resource templates
+    "streetsidesoftware.code-spell-checker", // Spell checker for identifying typos in code comments and documentation
+    "esbenp.prettier-vscode",       // Prettier extension for enforcing consistent code formatting across the project
+    "golang.go",                    // Go extension for developing Dagger pipelines or other Go-based applications
+    "ms-python.python",             // Python extension for developing Dagger pipelines or other Python-based applications
+    "redhat.vscode-yaml",           // YAML extension for validating and editing Kubernetes, Azure, and other YAML configuration files
+    "tfsec.tfsec"                   // tfsec extension for scanning Terraform code to identify potential security issues
+  ],
+
+  // Automatically format code on save to ensure consistent formatting
+  "editor.formatOnSave": true,
+
+  // Prettier configuration: Use single quotes for strings
+  "prettier.singleQuote": true,
+
+  // Prettier configuration: Add trailing commas where valid in ES5 (e.g., objects, arrays)
+  "prettier.trailingComma": "all"
+}
