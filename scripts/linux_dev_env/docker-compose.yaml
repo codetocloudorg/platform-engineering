@@ -1,0 +1,7 @@
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: debian.dockerfile
+    tty: true
+    stdin_open: true
