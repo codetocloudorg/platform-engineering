@@ -1,0 +1,32 @@
+[font]
+size = 13.5
+
+[font.bold]
+style = "Bold"
+
+[font.bold_italic]
+style = "Bold Italic"
+
+[font.italic]
+style = "Italic"
+
+[font.normal]
+family = "terminal-font"
+style = "Regular"
+
+[font.offset]
+x = 0
+y = 0
+
+[scrolling]
+history = 0
+
+[window]
+decorations = "Full"
+opacity = 1.0
+
+[terminal]
+shell = { program = "tmux", args = [] }
+
+[mouse]
+hide_when_typing = true
