@@ -122,9 +122,7 @@ CNPA works well with other certifications. Consider these to prepare better or g
    - Highlight it when applying for jobs
    - Use it to demonstrate your expertise to current employers
 
-**For Learning:**  
-- Read the [Linux Foundation Training Blog](https://training.linuxfoundation.org/blog/) for tips and updates
-- Follow [Linux Foundation Training on LinkedIn](https://www.linkedin.com/showcase/the-linux-foundation-training-&-certification/) for news
+
 
 ---
 

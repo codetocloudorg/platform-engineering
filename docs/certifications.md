@@ -10,7 +10,7 @@ A curated list of Platform Engineering certifications to validate expertise in D
 Introductory certification covering Kubernetes fundamentals and cloud-native technologies.
 
 ### Certified Cloud Native Platform Engineering Associate (CNPA)
-[View Certification Details](./certifications/cnpa/cnpa_readme.md) | [Complete Study Guide](./certifications/cnpa/cnpa_readme.md)
+[View Study Guide](./certifications/cnpa/cnpa_readme.md)
 
 Linux Foundation certification covering platform engineering fundamentals, automation, self-service systems, and cloud-native infrastructure.
 
