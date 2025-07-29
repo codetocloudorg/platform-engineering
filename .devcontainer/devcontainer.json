@@ -1,36 +1,55 @@
 {
-	"name": "Python 3 & PostgreSQL",
-    "dockerComposeFile": "docker-compose.yml",
-    "service": "app",
-    "workspaceFolder": "/workspace",
-    "forwardPorts": [5432],
-    "customizations": {
-    "vscode": {
-        "extensions": [
-        "ms-python.python",
-        "mtxr.sqltools",
-        "mtxr.sqltools-driver-pg",
-        "ms-azuretools.vscode-docker"
-        ],
-        "settings": {
-        "sqltools.connections": [
-            {
-            "name": "Container database",
-            "driver": "PostgreSQL",
-            "previewLimit": 50,
-            "server": "localhost",
-            "port": 5432,
-            "database": "app",
-            "username": "app_user",
-            "password": "app_password"
-            }
-        ],
-        "python.pythonPath": "/usr/local/bin/python"
-        }
-    }
+    // The name of the development container configuration
+    "name": "Code To Cloud PE Local Codespace",
+
+    // Specifies the Dockerfile to use for building the development container
+    "build": { 
+        "dockerfile": "Dockerfile" 
     },
-	"features": {
-		"ghcr.io/devcontainers/features/docker-in-docker:2": {}
-	},
-	"postCreateCommand": "curl -fsSL https://dl.dagger.io/dagger/install.sh | BIN_DIR=$HOME/.local/bin sh && pg_restore -U postgres -h 127.0.0.1 -d postgres seed_data/dvdrental.tar"
+
+    // Customizations for Visual Studio Code within the development container
+    "customizations": {
+        "vscode": {
+            // List of VS Code extensions to install automatically in the container
+            "extensions": [
+                "ms-azuretools.vscode-docker", // Microsoft Docker extension for managing containers
+                "HashiCorp.terraform",         // Terraform extension for working with IaC
+                "ms-azuretools.vscode-bicep",  // Bicep extension for Azure resource management
+                "streetsidesoftware.code-spell-checker", // Spell checker for code comments and documentation
+                "esbenp.prettier-vscode",       // Prettier extension for code formatting
+                "golang.go",                    // Go extension for Dagger pipelines written in Go
+                "ms-python.python",             // Python extension for Dagger pipelines written in Python
+                "redhat.vscode-yaml"            // YAML extension for working with configuration files
+            ],
+            // VS Code settings specific to the container environment
+            "settings": {
+                "extensions.ignoreRecommendations": true,
+                "editor.fontSize": 16,
+                "terminal.integrated.fontSize": 16,
+                "terminal.integrated.scrollback": 1000
+            }
+        }
+    },
+
+    // Mount Docker socket for Docker CLI access
+    "mounts": [
+        "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind", // Mount Docker socket for Docker CLI
+        "source=${env:HOME}/.azure,target=/root/.azure,type=bind" // Mount Azure credentials
+    ],
+
+    // Command to run after the container is created and ready
+    //"postCreateCommand": "make ensure", // Uncomment if needed
+
+    // Commands to run after the container starts
+    "postStartCommand": {
+        "set-git-config-safe-directory": "git config --global --add safe.directory ${containerWorkspaceFolder}",
+        "set-git-config-line-endings": "git config --global core.autocrlf input",
+        "set-git-config-gpg-program": "git config --global --add gpg.program /usr/bin/gpg",
+        "print-message-of-the-day": "echo \"bash /etc/update-motd.d/00-header\" >> ~/.bashrc"
+    },
+
+    // Commands to run after attaching to the container
+    "postAttachCommand": {
+        "print-message-of-the-day": "bash /etc/update-motd.d/00-header"
+    }
 }

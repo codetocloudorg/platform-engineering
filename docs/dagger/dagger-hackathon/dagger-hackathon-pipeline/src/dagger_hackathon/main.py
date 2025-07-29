@@ -36,9 +36,9 @@ class DaggerHackathon:
     github_branch: str
     github_repo: str
     github_token: dagger.Secret
-    azure_api_key: dagger.Secret
-    azure_endpoint: str
-    azure_model: str = "gpt-4o"
+    azure_openai_api_key: dagger.Secret # use in azure_xxx in StructureLlmResponse with AzureOpenAI library
+    azure_openai_endpoint: str
+    azure_openai_model: str = "gpt-4o"
     @function
     async def GetPrMetadata(self) -> PrMetadataResult:
         """Get the PR number and commit ID
@@ -67,7 +67,7 @@ class DaggerHackathon:
                 "--head", f"{self.github_branch}",
                 "--limit", "1",
                 "--json", "number",
-                "--jq", ".[0].number",
+                "--jq", ".[].number",
                 "--repo", f"{self.github_repo}"
             ])
             .stdout()
@@ -129,19 +129,18 @@ class DaggerHackathon:
         command_to_execute = [
             "python", "dagger-hackathon-pipeline/src/dagger_hackathon/structure_llm_response.py",
             "--response", response_to_structure,
-            "--endpoint", self.azure_endpoint,
-            "--model", self.azure_model
+            "--endpoint", self.azure_openai_endpoint,
+            "--model", self.azure_openai_model
         ]
         container = (
             dag.container()
             .from_("python:3.11")
             .with_mounted_directory("/app", self.source)
             .with_workdir("/app")
-            .with_secret_variable("AZURE_OPENAI_API_KEY", self.azure_api_key)
+            .with_secret_variable("AZURE_OPENAI_API_KEY", self.azure_openai_api_key)
             .with_exec(["pip", "install", "--upgrade", "pip"])
             .with_exec(["pip", "install", "openai==1.82.0", "pydantic==2.11.5"])  
             .with_exec(["sh", "-c", "export $(grep -v '^#' .env | xargs)"])
-            .with_exec(["sh", "-c", "echo $OPENAI_API_KEY"])
             .with_exec(command_to_execute)
         )
 
@@ -174,7 +173,7 @@ class DaggerHackathon:
             "--method", "POST",
             "-H", "Accept: application/vnd.github+json",
             "-H", "X-GitHub-Api-Version: 2022-11-28",
-            f"/repos/codetocloudorg/platform-engineering/pulls/{pr_metadata.pr_number}/comments",
+            f"/repos/{self.github_repo}/pulls/{pr_metadata.pr_number}/comments",
             "-f", f"body=```suggestion\n{proposed_code_changes.change}\n```",
             "-f", f"commit_id={pr_metadata.commit_id}",
             "-f", f"path={proposed_code_changes.path}",
@@ -243,8 +242,6 @@ class DaggerHackathon:
             .with_env(environment)
             .with_prompt_file(dag.current_module().source().file("debug_unit_test_prompt.md"))
         )
-
-        analyzed_results_output = await analyze_results.last_reply()
 
         proposed_code_change = await self.StructureLlmResponse(
             await analyze_results.last_reply()

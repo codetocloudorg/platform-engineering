@@ -1,0 +1,143 @@
+services:
+  # Docker-in-Docker service
+  dind:
+    image: docker:24-dind
+    container_name: dind
+    privileged: true
+    environment:
+      DOCKER_TLS_CERTDIR: ""  # Disable TLS for simplicity
+    command: ["dockerd", "--host=tcp://0.0.0.0:2375"]
+    networks:
+      - dind-network
+
+  test_k3d:
+    container_name: test_k3d_dind
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      DOCKER_HOST: tcp://dind:2375
+    depends_on:
+      - dind
+    networks:
+      - dind-network
+    entrypoint: |
+      bash -c '
+        # Wait for Docker daemon to be ready
+        until docker version >/dev/null 2>&1; do
+          echo "Waiting for Docker daemon..."
+          sleep 2
+        done
+        echo "Docker daemon is ready!"
+        # Run the actual test
+        /bin/bash ./run.sh test k3d
+        
+        # Source Nix environment
+        if [ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
+          source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+        fi
+        
+        # Wait a bit for everything to stabilize
+        echo "Waiting for cluster to stabilize..."
+        sleep 10
+        
+        # Test the deployed application
+        echo "Testing Hello World app..."
+        # Use full path to kubectl
+        KUBECTL=/nix/var/nix/profiles/default/bin/kubectl
+        
+        # Wait for the service to be ready
+        echo "Waiting for hello service..."
+        for i in {1..30}; do
+          if $$KUBECTL get svc hello &>/dev/null; then
+            break
+          fi
+          echo "Waiting for service... ($$i/30)"
+          sleep 2
+        done
+        
+        # Get the service endpoint
+        SERVICE_IP=$$($$KUBECTL get svc hello -o jsonpath='\''{.status.loadBalancer.ingress[0].ip}'\'' 2>/dev/null || $$KUBECTL get svc hello -o jsonpath='\''{.spec.clusterIP}'\'')
+        if [ -n "$$SERVICE_IP" ]; then
+          echo "Testing service at IP: $$SERVICE_IP"
+          HTTP_CODE=$$(curl -s -o /dev/null -w "%{http_code}" http://$$SERVICE_IP:80)
+          if [ "$$HTTP_CODE" = "200" ]; then
+            echo "✅ Successfully got 200 response from service"
+            exit 0
+          else
+            echo "❌ Failed to get 200 response. Got: $$HTTP_CODE"
+            exit 1
+          fi
+        else
+          echo "❌ Could not determine service IP"
+          exit 1
+        fi
+      '
+
+  test_kind:
+    container_name: test_kind_dind
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      DOCKER_HOST: tcp://dind:2375
+    depends_on:
+      - dind
+    networks:
+      - dind-network
+    entrypoint: |
+      bash -c '
+        # Wait for Docker daemon to be ready
+        until docker version >/dev/null 2>&1; do
+          echo "Waiting for Docker daemon..."
+          sleep 2
+        done
+        echo "Docker daemon is ready!"
+        # Run the actual test
+        /bin/bash ./run.sh test kind
+        
+        # Source Nix environment
+        if [ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
+          source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+        fi
+        
+        # Wait a bit for everything to stabilize
+        echo "Waiting for cluster to stabilize..."
+        sleep 10
+        
+        # Test the deployed application
+        echo "Testing Hello World app..."
+        # Use full path to kubectl
+        KUBECTL=/nix/var/nix/profiles/default/bin/kubectl
+        
+        # Wait for the service to be ready
+        echo "Waiting for hello service..."
+        for i in {1..30}; do
+          if $$KUBECTL get svc hello &>/dev/null; then
+            break
+          fi
+          echo "Waiting for service... ($$i/30)"
+          sleep 2
+        done
+        
+        # Get the service endpoint
+        SERVICE_IP=$$($$KUBECTL get svc hello -o jsonpath='\''{.status.loadBalancer.ingress[0].ip}'\'' 2>/dev/null || $$KUBECTL get svc hello -o jsonpath='\''{.spec.clusterIP}'\'')
+        if [ -n "$$SERVICE_IP" ]; then
+          echo "Testing service at IP: $$SERVICE_IP"
+          HTTP_CODE=$$(curl -s -o /dev/null -w "%{http_code}" http://$$SERVICE_IP:80)
+          if [ "$$HTTP_CODE" = "200" ]; then
+            echo "✅ Successfully got 200 response from service"
+            exit 0
+          else
+            echo "❌ Failed to get 200 response. Got: $$HTTP_CODE"
+            exit 1
+          fi
+        else
+          echo "❌ Could not determine service IP"
+          exit 1
+        fi
+      '
+
+networks:
+  dind-network:
+    driver: bridge

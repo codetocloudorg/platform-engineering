@@ -1,7 +1,6 @@
 import argparse
 from pydantic import BaseModel, Field
 from openai import AzureOpenAI
-import os
 
 class ProposedCodeChangesPydantic(BaseModel):
     path: str = Field(description="The path to the source file. ie: docs/dagger/dagger-hackathon/src/file.py")
