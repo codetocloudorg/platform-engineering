@@ -133,7 +133,7 @@ Platform Engineering encompasses several interconnected components that work tog
 - **[Automation and Scripting](docs/automation.md)**
 
 #### 🔍 Operations & Security
-- **[Monitoring and Observability](docs/monitoring.md)**
+- **[Monitoring and Observability](docs/observability/README.md)**
 - **[Security and Compliance](docs/security.md)**
 - **[AI Infrastructure](docs/ai_infrastructure.md)**
 
