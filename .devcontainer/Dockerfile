@@ -1,82 +1,102 @@
-# Use the official Ubuntu 22.04 LTS base image
-FROM ubuntu:22.04
+# =============================================================================
+# Code to Cloud - Platform Engineering Dev Container
+# Minimal Ubuntu 24.04 LTS (Noble Numbat) with IaC tooling
+# =============================================================================
 
-# Set a default locale to avoid locale-related issues
-ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
+FROM ubuntu:24.04 AS base
 
-# Update and install essential dependencies
+# Prevent interactive prompts during package installation
+ARG DEBIAN_FRONTEND=noninteractive
+
+# Set locale and environment
+ENV LANG=C.UTF-8 \
+    LC_ALL=C.UTF-8 \
+    TERM=xterm-256color
+
+# -----------------------------------------------------------------------------
+# Stage 1: Install base dependencies (single layer for efficiency)
+# -----------------------------------------------------------------------------
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    sudo \
+    ca-certificates \
     curl \
     gnupg \
-    software-properties-common \
+    lsb-release \
     wget \
     git \
-    docker.io \
-    unzip && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+    unzip \
+    jq \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Install Azure CLI
-RUN curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+# -----------------------------------------------------------------------------
+# Stage 2: Install Docker CLI (for DinD support)
+# -----------------------------------------------------------------------------
+RUN install -m 0755 -d /etc/apt/keyrings \
+    && curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc \
+    && chmod a+r /etc/apt/keyrings/docker.asc \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" > /etc/apt/sources.list.d/docker.list \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends docker-ce-cli \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install Terraform
-RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg && \
-    echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list && \
-    apt-get update && apt-get install -y --no-install-recommends terraform && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+# -----------------------------------------------------------------------------
+# Stage 3: Install Azure CLI
+# -----------------------------------------------------------------------------
+RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install OpenTofu
-RUN curl --proto '=https' --tlsv1.2 -fsSL https://get.opentofu.org/install-opentofu.sh -o install-opentofu.sh && \
-    chmod +x install-opentofu.sh && \
-    ./install-opentofu.sh --install-method standalone || (cat install-opentofu.sh && exit 1) && \
-    rm -f install-opentofu.sh
+# -----------------------------------------------------------------------------
+# Stage 4: Install Terraform
+# -----------------------------------------------------------------------------
+RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg \
+    && echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" > /etc/apt/sources.list.d/hashicorp.list \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends terraform \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install Dagger CLI
-RUN curl -L https://dl.dagger.io/dagger/install.sh | bash
+# -----------------------------------------------------------------------------
+# Stage 5: Install OpenTofu
+# -----------------------------------------------------------------------------
+RUN curl --proto '=https' --tlsv1.2 -fsSL https://get.opentofu.org/install-opentofu.sh -o /tmp/install-opentofu.sh \
+    && chmod +x /tmp/install-opentofu.sh \
+    && /tmp/install-opentofu.sh --install-method standalone \
+    && rm -f /tmp/install-opentofu.sh
 
-# Install the Bicep CLI using the Azure CLI
+# -----------------------------------------------------------------------------
+# Stage 6: Install Dagger CLI
+# -----------------------------------------------------------------------------
+RUN curl -fsSL https://dl.dagger.io/dagger/install.sh | BIN_DIR=/usr/local/bin bash
+
+# -----------------------------------------------------------------------------
+# Stage 7: Install Bicep CLI via Azure CLI
+# -----------------------------------------------------------------------------
 RUN az bicep install
 
-# Copy the code_to_cloud.txt file into the container
+# -----------------------------------------------------------------------------
+# MOTD Configuration
+# -----------------------------------------------------------------------------
 COPY motd/code_to_cloud.txt /etc/motd-code-to-cloud.txt
 
-# Add the custom MOTD script
-RUN echo '#!/bin/bash\n\
-cat /etc/motd-code-to-cloud.txt' > /etc/update-motd.d/99-custom && \
-    chmod +x /etc/update-motd.d/99-custom
+RUN printf '#!/bin/bash\ncat /etc/motd-code-to-cloud.txt\n' > /etc/update-motd.d/99-custom \
+    && chmod +x /etc/update-motd.d/99-custom \
+    && ln -sf /run/motd.dynamic /etc/motd 2>/dev/null || touch /etc/motd \
+    && echo '[ -f /etc/motd-code-to-cloud.txt ] && cat /etc/motd-code-to-cloud.txt' >> /etc/bash.bashrc
 
-# Create an entrypoint script to run the MOTD script on container start
-RUN echo '#!/bin/bash\n\
-/etc/update-motd.d/99-custom\n\
-exec "$@"' > /usr/local/bin/entrypoint.sh && \
-    chmod +x /usr/local/bin/entrypoint.sh
+# -----------------------------------------------------------------------------
+# Entrypoint
+# -----------------------------------------------------------------------------
+RUN printf '#!/bin/bash\n/etc/update-motd.d/99-custom\nexec "$@"\n' > /usr/local/bin/entrypoint.sh \
+    && chmod +x /usr/local/bin/entrypoint.sh
 
-# Set the entrypoint to the custom script
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD ["bash"]
 
-# Ensure MOTD is dynamically generated
-RUN ln -sf /run/motd.dynamic /etc/motd || touch /etc/motd
-
-# Force the MOTD to display on login
-RUN echo 'if [ -f /etc/motd ]; then cat /etc/motd; fi' >> /etc/bash.bashrc
-
-# Verify Terraform installation
-RUN terraform --version
-
-# Verify OpenTofu installation
-RUN tofu --version
-
-# Verify Azure CLI installation
-RUN az version
-
-# Verify Bicep CLI installation
-RUN az bicep version
-
-# Verify Dagger CLI installation
-RUN dagger version
-
-# Verify the MOTD script exists and is executable
-RUN ls -l /etc/update-motd.d/99-custom
-
-# Verify the code_to_cloud.txt file exists
-RUN ls -l /etc/motd-code-to-cloud.txt
+# -----------------------------------------------------------------------------
+# Verification (build-time checks)
+# -----------------------------------------------------------------------------
+RUN echo "=== Tool Versions ===" \
+    && terraform --version \
+    && tofu --version \
+    && az version -o table \
+    && az bicep version \
+    && dagger version \
+    && docker --version

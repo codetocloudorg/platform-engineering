@@ -1,87 +1,79 @@
-<!-- Centered image and badges -->
-<p align="center">
-  <img src="https://github.com/codetocloudorg/artwork/blob/main/examples/images/current/code_to_cloud_1920_x_1080_desktop.png?raw=true" alt="Code To Cloud Logo" width="80%" height="90%" />
-</p>
+<div align="center">
 
-<p align="center">
-  <a href="https://github.com/codetocloudorg/platform-engineering">
-    <img src="https://img.shields.io/github/stars/codetocloudorg/platform-engineering?style=social" alt="GitHub stars">
-  </a>
-  <a href="https://github.com/codetocloudorg/platform-engineering/fork">
-    <img src="https://img.shields.io/github/forks/codetocloudorg/platform-engineering?style=social" alt="GitHub forks">
-  </a>
-  <a href="https://github.com/codetocloudorg/platform-engineering/issues">
-    <img src="https://img.shields.io/github/issues/codetocloudorg/platform-engineering?style=social" alt="GitHub issues">
-  </a>
-  <a href="https://github.com/codetocloudorg/platform-engineering/graphs/contributors">
-    <img src="https://img.shields.io/github/contributors/codetocloudorg/platform-engineering?style=social" alt="GitHub contributors">
-  </a>
-</p>
+<img src="https://github.com/codetocloudorg/artwork/blob/main/examples/images/current/code_to_cloud_1920_x_1080_desktop.png?raw=true" alt="Code To Cloud" width="600" />
+
+# Platform Engineering
+
+**Resources, best practices, and automation tools for cloud-native platforms**
+
+[![GitHub stars](https://img.shields.io/github/stars/codetocloudorg/platform-engineering?style=flat-square)](https://github.com/codetocloudorg/platform-engineering)
+[![GitHub forks](https://img.shields.io/github/forks/codetocloudorg/platform-engineering?style=flat-square)](https://github.com/codetocloudorg/platform-engineering/fork)
+[![GitHub issues](https://img.shields.io/github/issues/codetocloudorg/platform-engineering?style=flat-square)](https://github.com/codetocloudorg/platform-engineering/issues)
+[![Website](https://img.shields.io/badge/website-eng.codetocloud.io-blue?style=flat-square)](https://eng.codetocloud.io)
+
+[Website](https://eng.codetocloud.io) · [Getting Started](#-quick-start) · [Docs](docs/) · [Contributing](CONTRIBUTING.md)
+
+</div>
 
 ---
 
-## 📑 Table of Contents
+## 📑 Contents
 
-- [🏢 Project Overview](#-project-overview)
-  - [🎉 Acknowledgements](#-acknowledgements)
-  - [✍️ Author](#️-author)
-  - [📈 Project Evolution](#-project-evolution)
-  - [🚀 Focus Areas](#-focus-areas)
-  - [🛠️ Tools and Technologies](#️-tools-and-technologies)
-- [📚 Platform Engineering Knowledge Base](#-platform-engineering-knowledge-base)
-  - [🌐 What is Platform Engineering?](#-what-is-platform-engineering)
-  - [🚀 Why Platform Engineering?](#-why-platform-engineering)
-  - [🛠️ Platform Tooling Landscape](#️-platform-tooling-landscape)
-  - [🔑 Key Components](#-key-components-of-platform-engineering)
-  - [🏗️ Reference Architecture](#️-platform-engineering-reference-architecture)
-  - [👩‍💻 The Role of a Platform Engineer](#️-the-role-of-a-platform-engineer)
-- [🎓 Learning & Community](#-learning--community)
-- [🤝 Contributing](#-contributing)
+- [Quick Start](#-quick-start)
+- [Local Development](#-local-development)
+- [What is Platform Engineering?](#-what-is-platform-engineering)
+- [Key Components](#-key-components)
+- [Learning & Certification](#-learning--certification)
+- [Contributing](#-contributing)
 
 ---
 
-## 🏢 Project Overview
+## 🏢 About
 
-### 🎉 Acknowledgements
+Created by **[Kevin Evans](https://linktr.ee/bash.sh)** and the **[Code to Cloud](https://connect.codetocloud.io)** community. What started as a personal learning journey has grown into a comprehensive resource for platform engineering teams.
 
-We extend our heartfelt gratitude to the **Code to Cloud** community for their continuous support and contributions.  
-You can connect with them on their [socials page](https://connect.codetocloud.io).
+> *"It's all in the reflexes."* — Jack Burton
 
-### ✍️ Author
+**Focus Areas:** Platform Engineering \u00b7 DevSecOps \u00b7 Cloud-Native Development
 
-Started by **[Kevin Evans](https://linktr.ee/bash.sh)** as a way to document his journey in Platform Engineering, this repository has evolved into a centralized hub for platform engineering teams. It provides resources, best practices, and automation tools, including IaC templates, blueprints, and operational guides to help build scalable, secure, and efficient platforms for cloud-native environments and DevOps workflows.  
-*Fun fact:* The idea for this repo came while **[Kevin](https://linktr.ee/bash.sh)** was watching *[Big Trouble in Little China](https://www.imdb.com/title/tt0090728/)*—because, as **Jack Burton** would say, *"It's all in the reflexes."*
-
-### 📈 Project Evolution
-
-What began as a personal learning journey has evolved into a structured learning resource for Platform Engineering principles, processes, and tooling. We encourage community contributions, feedback, and discussions to further enrich this repository.
-
-### 🚀 Focus Areas
-
-- **Platform Engineering**: Continuous integration, continuous delivery, infrastructure as code, and more.
-- **DevSecOps**: Integrating security practices into the DevOps pipeline.
-- **Community Sessions**: Interactive sessions and discussions to foster learning and collaboration.
-
-### 🛠️ Tools and Technologies
-
-This project is not vendor-sponsored and utilizes free, community, and open-source software.
+This project uses free, community, and open-source software only.
 
 ---
 
-## � Quick Start
+## 🚀 Quick Start
 
-New to Platform Engineering? Start here:
+```bash
+# Clone the repo
+git clone https://github.com/codetocloudorg/platform-engineering
 
-1. **📖 Learn the Basics**: Read [What is Platform Engineering?](#-what-is-platform-engineering)
-2. **🏗️ Explore Architecture**: Check out our [Reference Architectures](#️-platform-engineering-reference-architecture)
-3. **🛠️ Get Hands-On**: Try our [Development Setup Guide](docs/development_setup.md)
-4. **🎓 Level Up**: Explore [Certification Pathways](docs/certifications.md)
+# Open in GitHub Codespaces (recommended)
+# or use the included devcontainer in VS Code
+```
+
+| Step | Description |
+|------|-------------|
+| 📖 **Learn** | [What is Platform Engineering?](#-what-is-platform-engineering) |
+| 🏗️ **Explore** | [Reference Architectures](#️-reference-architecture) |
+| 🛠️ **Build** | [Development Setup](docs/development_setup.md) |
+| 🎓 **Certify** | [Certification Paths](docs/certifications.md) |
 
 ---
 
-## �📚 Platform Engineering Knowledge Base
+## 💻 Local Development
 
-### 🌐 What is Platform Engineering?
+Set up a fully configured local development environment with cloud-native tools.
+
+| Environment | Description | Link |
+|-------------|-------------|------|
+| 🐧 **Kodra** | Ubuntu desktop with Ghostty, VS Code, and 30+ tools | [kodra.codetocloud.io](https://kodra.codetocloud.io) |
+| 🪟 **Kodra WSL** | Windows + WSL2 with Docker CE and Azure tooling | [kodra.wsl.codetocloud.io](https://kodra.wsl.codetocloud.io) |
+| ☁️ **Codespaces** | Browser-based dev environment using this repo | [Open in Codespaces](https://github.com/codespaces/new?repo=codetocloudorg/platform-engineering) |
+
+The devcontainer in this repo includes: Terraform, OpenTofu, Dagger, Azure CLI, Bicep, and Docker.
+
+---
+
+## 🌐 What is Platform Engineering?
 
 Platform Engineering builds on DevOps principles to enhance **security**, **compliance**, **cost efficiency**, and **time-to-value** by improving developer experiences and enabling self-service within a secure, governed framework.
 
@@ -117,61 +109,38 @@ The platform engineering tooling landscape is rapidly evolving, encompassing a w
 For a deeper dive into the current state of platform engineering and its tooling ecosystem, check out this overview:  
 - **[Platform Engineering Landscape Overview](docs/platform_engineering_landscape.md)** 🚀
 
-### 🔑 Key Components of Platform Engineering
+### 🔑 Key Components
 
-Platform Engineering encompasses several interconnected components that work together to create a seamless developer experience:
+| Category | Resources |
+|----------|----------|
+| **Infrastructure** | [IaC](docs/iac.md) · [CI/CD](docs/ci_cd.md) · [Kubernetes](docs/kubernetes.md) · [Cloud-Native](docs/cloud_native.md) |
+| **Developer Experience** | [Codespaces](docs/codespaces.md) · [IDPs](docs/internal_development_platforms.md) · [Automation](docs/automation.md) |
+| **Operations** | [Observability](docs/observability/README.md) · [Security](docs/security.md) · [AI Infra](docs/ai_infrastructure.md) |
 
-#### 🏗️ Infrastructure & Deployment
-- **[Infrastructure as Code (IaC)](docs/iac.md)**
-- **[Continuous Integration and Delivery (CI/CD)](docs/ci_cd.md)**
-- **[Kubernetes](docs/kubernetes.md)**
-- **[Cloud-Native Architectures](docs/cloud_native.md)**
+### 🏗️ Reference Architecture
 
-#### 🛠️ Developer Experience
-- **[Codespaces](docs/codespaces.md)**
-- **[Internal Development Platforms](docs/internal_development_platforms.md)**
-- **[Automation and Scripting](docs/automation.md)**
+Standardized frameworks for building scalable, secure IDPs with IaC, GitOps, Kubernetes, and self-service portals.
 
-#### 🔍 Operations & Security
-- **[Monitoring and Observability](docs/observability/README.md)**
-- **[Security and Compliance](docs/security.md)**
-- **[AI Infrastructure](docs/ai_infrastructure.md)**
-
-### 🏗️ Platform Engineering Reference Architecture
-
-A **Platform Engineering Reference Architecture** provides a standardized framework for building scalable, secure, and efficient internal developer platforms (IDPs). It integrates key components like **Infrastructure as Code (IaC)**, **GitOps workflows**, **Kubernetes-based orchestration**, and **self-service developer portals** to streamline cloud-native application delivery.
-
-#### 🌥️ Cloud-Specific Architectures
-
-For a deep dive into platform engineering architectures tailored to specific cloud environments, check out the following:  
-- 🔹 **Azure**: [*Azure Platform Engineering Architecture*](docs/images/azure_ref_architecture.jpg)
-- 🔹 **Red Hat OpenShift**: [*OpenShift Platform Engineering Architecture*](docs/images/red_hat_openshift_ref_architecture.jpg)
-
-### 👩‍💻 The Role of a Platform Engineer
-
-A Platform Engineer is responsible for building and maintaining the platform that supports the entire software development lifecycle. This includes:
-
-- **🛠️ Designing and implementing infrastructure solutions**
-- **🔧 Developing and maintaining CI/CD pipelines**
-- **📊 Setting up monitoring and alerting systems**
-- **🔐 Ensuring security best practices are followed**
-- **🤝 Collaborating with development teams to understand their needs and provide solutions**
+- [Azure Reference Architecture](docs/images/azure_ref_architecture.jpg)
+- [OpenShift Reference Architecture](docs/images/red_hat_openshift_ref_architecture.jpg)
 
 ---
 
-## 🎓 Learning & Community
+## 🎓 Learning & Certification
 
-### 🎓 Certification Pathways
-
-Check out our community-curated section on certification paths designed to support your platform engineering journey here:  
-- **[Certifications](docs/certifications.md)**
+- [Certification Pathways](docs/certifications.md)
+- [Platform Engineering Landscape](docs/platform_engineering_landscape.md)
 
 ---
 
 ## 🤝 Contributing
 
-We welcome contributions from everyone. Feel free to [open issues](https://github.com/codetocloudorg/platform-engineering/issues), [submit pull requests](https://github.com/codetocloudorg/platform-engineering/pulls), and join discussions to help us improve and expand this resource.
+Contributions welcome! [Open issues](https://github.com/codetocloudorg/platform-engineering/issues), [submit PRs](https://github.com/codetocloudorg/platform-engineering/pulls), or review our [contributing guide](CONTRIBUTING.md).
 
-Review our [contributing policy here](/CONTRIBUTING.md).
+---
 
-Thank you for being a part of our journey!
+<div align="center">
+
+**[eng.codetocloud.io](https://eng.codetocloud.io)** · Made with ❤️ by Code to Cloud
+
+</div>

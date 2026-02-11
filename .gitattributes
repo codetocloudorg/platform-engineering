@@ -1,0 +1,31 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Explicitly declare text files
+*.md text
+*.yml text
+*.yaml text
+*.json text
+*.html text
+*.css text
+*.js text
+*.ts text
+*.sh text eol=lf
+*.bash text eol=lf
+*.tf text
+*.hcl text
+*.dockerfile text
+
+# Declare binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+
+# Treat Terraform lock files as binary
+.terraform.lock.hcl binary
+
+# Git attributes for merging
+*.md diff=markdown

@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Platform Engineering | Code to Cloud</title>
+    <meta name="description" content="Platform Engineering resources, best practices, and automation tools for cloud-native environments and DevOps workflows.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>">
+    <style>
+        :root {
+            --primary: #a78bfa;
+            --primary-dark: #7c3aed;
+            --accent: #22d3ee;
+            --bg-dark: #0a0a0f;
+            --bg-card: #16161d;
+            --bg-terminal: #1a1b26;
+            --text: #c0caf5;
+            --text-muted: #565f89;
+            --text-bright: #f7f7f7;
+            --green: #9ece6a;
+            --yellow: #e0af68;
+            --red: #f7768e;
+            --blue: #7aa2f7;
+            --cyan: #7dcfff;
+            --border: rgba(255,255,255,0.06);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+        
+        /* Header */
+        header {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            background: rgba(10, 10, 15, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-bright);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .logo-icon { font-size: 1.5rem; }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+        
+        .nav-links a:hover { color: var(--text-bright); }
+        
+        /* Hero */
+        .hero {
+            padding: 6rem 0 4rem;
+            text-align: center;
+        }
+        
+        .ascii-art {
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: clamp(0.35rem, 1.2vw, 0.7rem);
+            color: var(--primary);
+            white-space: pre;
+            line-height: 1.2;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            color: var(--text-bright);
+            margin-bottom: 1rem;
+        }
+        
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .tagline {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+        
+        .btn {
+            padding: 0.875rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: var(--bg-dark);
+        }
+        
+        .btn-primary:hover {
+            background: var(--text-bright);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        /* Terminal */
+        .terminal {
+            background: var(--bg-terminal);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: left;
+            overflow: hidden;
+        }
+        
+        .terminal-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 16px;
+            background: rgba(0,0,0,0.3);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .terminal-dot.red { background: var(--red); }
+        .terminal-dot.yellow { background: var(--yellow); }
+        .terminal-dot.green { background: var(--green); }
+        
+        .terminal-title {
+            flex: 1;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        
+        .terminal-body {
+            padding: 1.25rem;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.8;
+        }
+        
+        .terminal-line { margin-bottom: 0.25rem; }
+        .prompt { color: var(--cyan); }
+        .command { color: var(--text-bright); }
+        .comment { color: var(--text-muted); }
+        .success { color: var(--green); }
+        .path { color: var(--yellow); }
+        
+        /* Section */
+        section { padding: 5rem 0; }
+        
+        .section-label {
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-bright);
+            margin-bottom: 0.75rem;
+        }
+        
+        .section-subtitle {
+            color: var(--text-muted);
+            max-width: 600px;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-header .section-subtitle {
+            margin: 0 auto;
+        }
+        
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.75rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .feature-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+        }
+        
+        .feature-icon {
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.1rem;
+            color: var(--text-bright);
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        /* Local Dev Section */
+        .local-dev {
+            background: linear-gradient(180deg, transparent 0%, rgba(167, 139, 250, 0.03) 100%);
+        }
+        
+        .local-dev-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .local-dev-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .local-dev-card:hover {
+            border-color: var(--cyan);
+            transform: translateY(-4px);
+        }
+        
+        .local-dev-card h3 {
+            font-size: 1.25rem;
+            color: var(--text-bright);
+            margin: 1rem 0 0.5rem;
+        }
+        
+        .local-dev-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .local-dev-card .badge {
+            display: inline-block;
+            background: rgba(34, 211, 238, 0.1);
+            color: var(--cyan);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .local-dev-card .btn {
+            width: 100%;
+            justify-content: center;
+        }
+        
+        /* Tools Grid */
+        .tools-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-top: 2rem;
+        }
+        
+        .tool-badge {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+        }
+        
+        .tool-badge:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 3rem 0;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr repeat(3, 1fr);
+            gap: 3rem;
+        }
+        
+        .footer-brand .logo {
+            margin-bottom: 1rem;
+        }
+        
+        .footer-brand p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            max-width: 280px;
+        }
+        
+        .footer-links h4 {
+            color: var(--text-bright);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--cyan);
+        }
+        
+        .footer-bottom {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        
+        .footer-bottom a {
+            color: var(--cyan);
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .ascii-art { font-size: 0.3rem; }
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+            .footer-brand {
+                grid-column: 1 / -1;
+            }
+        }
+        
+        /* Version Bar */
+        .version-bar {
+            background: linear-gradient(90deg, var(--primary-dark), var(--primary));
+            color: var(--bg-dark);
+            text-align: center;
+            padding: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+    </style>
+</head>
+<body>
+    <div class="version-bar">
+        <span>v1.0.0 — Platform Engineering Knowledge Base</span>
+    </div>
+    <header>
+        <nav class="container">
+            <a href="/" class="logo">
+                <span class="logo-icon">⚙️</span>
+                Platform Engineering
+            </a>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#local-dev">Local Dev</a></li>
+                <li><a href="#tools">Tools</a></li>
+                <li><a href="https://discord.gg/vwfwq2EpXJ">Discord</a></li>
+                <li><a href="https://github.com/codetocloudorg/platform-engineering">GitHub</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <pre class="ascii-art">
+██████╗ ██╗      █████╗ ████████╗███████╗ ██████╗ ██████╗ ███╗   ███╗
+██╔══██╗██║     ██╔══██╗╚══██╔══╝██╔════╝██╔═══██╗██╔══██╗████╗ ████║
+██████╔╝██║     ███████║   ██║   █████╗  ██║   ██║██████╔╝██╔████╔██║
+██╔═══╝ ██║     ██╔══██║   ██║   ██╔══╝  ██║   ██║██╔══██╗██║╚██╔╝██║
+██║     ███████╗██║  ██║   ██║   ██║     ╚██████╔╝██║  ██║██║ ╚═╝ ██║
+╚═╝     ╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═╝      ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝
+███████╗███╗   ██╗ ██████╗ ██╗███╗   ██╗███████╗███████╗██████╗ ██╗███╗   ██╗ ██████╗ 
+██╔════╝████╗  ██║██╔════╝ ██║████╗  ██║██╔════╝██╔════╝██╔══██╗██║████╗  ██║██╔════╝ 
+█████╗  ██╔██╗ ██║██║  ███╗██║██╔██╗ ██║█████╗  █████╗  ██████╔╝██║██╔██╗ ██║██║  ███╗
+██╔══╝  ██║╚██╗██║██║   ██║██║██║╚██╗██║██╔══╝  ██╔══╝  ██╔══██╗██║██║╚██╗██║██║   ██║
+███████╗██║ ╚████║╚██████╔╝██║██║ ╚████║███████╗███████╗██║  ██║██║██║ ╚████║╚██████╔╝
+╚══════╝╚═╝  ╚═══╝ ╚═════╝ ╚═╝╚═╝  ╚═══╝╚══════╝╚══════╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝ ╚═════╝ 
+                </pre>
+                <h1>Cloud-Native <span>Platform Engineering</span></h1>
+                <p class="tagline">Resources, IaC templates, and automation tools for building scalable internal developer platforms.</p>
+                <div class="cta-buttons">
+                    <a href="https://github.com/codetocloudorg/platform-engineering" class="btn btn-primary">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                        Get Started
+                    </a>
+                    <a href="https://discord.gg/vwfwq2EpXJ" class="btn btn-secondary">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+                        Discord
+                    </a>
+                </div>
+                
+                <div class="terminal">
+                    <div class="terminal-header">
+                        <div class="terminal-dot red"></div>
+                        <div class="terminal-dot yellow"></div>
+                        <div class="terminal-dot green"></div>
+                        <span class="terminal-title">platform-engineering — zsh</span>
+                    </div>
+                    <div class="terminal-body">
+                        <div class="terminal-line"><span class="prompt">$</span> <span class="command">git clone https://github.com/codetocloudorg/platform-engineering</span></div>
+                        <div class="terminal-line"><span class="comment"># Open in GitHub Codespaces or VS Code Dev Container</span></div>
+                        <div class="terminal-line"><span class="success">✓</span> Terraform + OpenTofu ready</div>
+                        <div class="terminal-line"><span class="success">✓</span> Dagger pipelines configured</div>
+                        <div class="terminal-line"><span class="success">✓</span> Azure CLI + Bicep installed</div>
+                        <div class="terminal-line"><span class="success">✓</span> IaC templates & examples included</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="features">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-label">Features</div>
+                    <h2 class="section-title">Everything you need to build platforms</h2>
+                    <p class="section-subtitle">From infrastructure as code to developer portals—comprehensive resources for platform teams.</p>
+                </div>
+                
+                <div class="features-grid">
+                    <a href="docs/iac.md" class="feature-card">
+                        <div class="feature-icon">🏗️</div>
+                        <h3>Infrastructure as Code</h3>
+                        <p>Terraform, OpenTofu, Bicep, and Pulumi templates for reproducible infrastructure.</p>
+                    </a>
+                    <a href="docs/kubernetes.md" class="feature-card">
+                        <div class="feature-icon">☸️</div>
+                        <h3>Kubernetes</h3>
+                        <p>Local, baremetal, and hyperscaler deployment guides and best practices.</p>
+                    </a>
+                    <a href="docs/ci_cd.md" class="feature-card">
+                        <div class="feature-icon">🚀</div>
+                        <h3>CI/CD Pipelines</h3>
+                        <p>GitHub Actions, Dagger, and GitOps workflows for continuous delivery.</p>
+                    </a>
+                    <a href="docs/internal_development_platforms.md" class="feature-card">
+                        <div class="feature-icon">🖥️</div>
+                        <h3>Internal Platforms</h3>
+                        <p>Backstage, Port, Cortex, and other IDP implementations.</p>
+                    </a>
+                    <a href="docs/security.md" class="feature-card">
+                        <div class="feature-icon">🔐</div>
+                        <h3>Security & Compliance</h3>
+                        <p>DevSecOps practices, policy-as-code, and security automation.</p>
+                    </a>
+                    <a href="docs/observability/README.md" class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3>Observability</h3>
+                        <p>Monitoring, logging, and tracing for cloud-native applications.</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="local-dev" class="local-dev">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-label">Local Development</div>
+                    <h2 class="section-title">Set up your dev environment</h2>
+                    <p class="section-subtitle">Get a fully configured local development environment with cloud-native tools in minutes.</p>
+                </div>
+                
+                <div class="local-dev-grid">
+                    <div class="local-dev-card">
+                        <span class="badge">Ubuntu Desktop</span>
+                        <div style="font-size: 3rem;">🐧</div>
+                        <h3>Kodra</h3>
+                        <p>Full GNOME desktop with Ghostty terminal, VS Code, and 30+ cloud-native tools pre-configured.</p>
+                        <a href="https://kodra.codetocloud.io" class="btn btn-primary">Get Kodra</a>
+                    </div>
+                    <div class="local-dev-card">
+                        <span class="badge">Windows + WSL</span>
+                        <div style="font-size: 3rem;">🪟</div>
+                        <h3>Kodra WSL</h3>
+                        <p>All CLI tools running natively in WSL2—Docker CE without licensing, Azure CLI, and AI assistance.</p>
+                        <a href="https://kodra.wsl.codetocloud.io" class="btn btn-primary">Get Kodra WSL</a>
+                    </div>
+                    <div class="local-dev-card">
+                        <span class="badge">Browser-Based</span>
+                        <div style="font-size: 3rem;">☁️</div>
+                        <h3>GitHub Codespaces</h3>
+                        <p>Use this repo's devcontainer for instant cloud development environments with all tools ready.</p>
+                        <a href="https://github.com/codespaces/new?repo=codetocloudorg/platform-engineering" class="btn btn-primary">Open in Codespaces</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tools">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-label">Batteries Included</div>
+                    <h2 class="section-title">Tools & Technologies</h2>
+                    <p class="section-subtitle">Open-source and community-driven tools covered in our documentation.</p>
+                </div>
+                
+                <div class="tools-grid">
+                    <span class="tool-badge">🏗️ Terraform</span>
+                    <span class="tool-badge">🪨 OpenTofu</span>
+                    <span class="tool-badge">💪 Bicep</span>
+                    <span class="tool-badge">☸️ Kubernetes</span>
+                    <span class="tool-badge">🐳 Docker</span>
+                    <span class="tool-badge">🔄 Dagger</span>
+                    <span class="tool-badge">🐙 GitHub Actions</span>
+                    <span class="tool-badge">🚀 ArgoCD</span>
+                    <span class="tool-badge">🎭 Backstage</span>
+                    <span class="tool-badge">⎈ Helm</span>
+                    <span class="tool-badge">📊 Prometheus</span>
+                    <span class="tool-badge">📈 Grafana</span>
+                    <span class="tool-badge">☁️ Azure</span>
+                    <span class="tool-badge">🔶 AWS</span>
+                    <span class="tool-badge">🔷 GCP</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="/" class="logo">
+                        <span class="logo-icon">⚙️</span>
+                        Platform Engineering
+                    </a>
+                    <p>Resources, best practices, and automation tools for cloud-native platform engineering.</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>RESOURCES</h4>
+                    <ul>
+                        <li><a href="docs/iac.md">Infrastructure as Code</a></li>
+                        <li><a href="docs/kubernetes.md">Kubernetes</a></li>
+                        <li><a href="docs/ci_cd.md">CI/CD</a></li>
+                        <li><a href="docs/security.md">Security</a></li>
+                        <li><a href="docs/observability/README.md">Observability</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>LOCAL DEV</h4>
+                    <ul>
+                        <li><a href="https://kodra.codetocloud.io">Kodra Desktop</a></li>
+                        <li><a href="https://kodra.wsl.codetocloud.io">Kodra WSL</a></li>
+                        <li><a href="docs/codespaces.md">Codespaces</a></li>
+                        <li><a href="docs/development_setup.md">Setup Guide</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>COMMUNITY</h4>
+                    <ul>
+                        <li><a href="https://github.com/codetocloudorg/platform-engineering">GitHub</a></li>
+                        <li><a href="https://discord.gg/vwfwq2EpXJ">Discord</a></li>
+                        <li><a href="https://codetocloud.io">Code to Cloud</a></li>
+                        <li><a href="docs/certifications.md">Certifications</a></li>
+                        <li><a href="CONTRIBUTING.md">Contributing</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>Developed by <a href="https://codetocloud.io">Code to Cloud</a>. Released under the MIT License.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

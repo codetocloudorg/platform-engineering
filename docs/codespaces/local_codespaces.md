@@ -1,5 +1,16 @@
 # 🖥️ Local Codespaces: Offline and High-Performance Development
 
+## 🚀 Quick Option: Kodra
+
+For a fully automated local development setup with 30+ cloud-native tools:
+
+| Platform | Link |
+|----------|------|
+| 🐧 **Ubuntu Desktop** | [kodra.codetocloud.io](https://kodra.codetocloud.io) |
+| 🪟 **Windows + WSL** | [kodra.wsl.codetocloud.io](https://kodra.wsl.codetocloud.io) |
+
+---
+
 ## 🌟 What Are Local Codespaces?
 
 Local Codespaces bring the power of pre-configured development environments to your own machine. They allow developers to work offline and leverage local hardware for better performance, making them ideal for resource-intensive tasks or environments with limited internet access.

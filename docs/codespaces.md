@@ -4,6 +4,16 @@ Codespaces are **pre-configured development environments** that allow developers
 
 ---
 
+## 🚀 Quick Start
+
+| Environment | Best For | Link |
+|-------------|----------|------|
+| **GitHub Codespaces** | Browser-based, zero setup | [Open Codespaces](https://github.com/codespaces/new?repo=codetocloudorg/platform-engineering) |
+| **Kodra** | Full Ubuntu desktop + terminal | [kodra.codetocloud.io](https://kodra.codetocloud.io) |
+| **Kodra WSL** | Windows + native WSL2 tooling | [kodra.wsl.codetocloud.io](https://kodra.wsl.codetocloud.io) |
+
+---
+
 ## 🌐 Explore Codespaces
 
 - **🌥️ [Cloud Codespaces](./codespaces/cloud_codespaces.md)**:  
