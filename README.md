@@ -1,17 +1,21 @@
 <div align="center">
 
-<img src="https://github.com/codetocloudorg/artwork/blob/main/examples/images/current/code_to_cloud_1920_x_1080_desktop.png?raw=true" alt="Code To Cloud" width="600" />
+<img src="https://github.com/codetocloudorg/artwork/blob/main/examples/images/current/code_to_cloud_1920_x_1080_desktop.png?raw=true" alt="Platform Engineering Hub — Code To Cloud: IaC, Kubernetes, DevSecOps, and Cloud-Native Resources" width="600" />
 
 # Platform Engineering
 
-**Resources, best practices, and automation tools for cloud-native platforms**
+**The open-source hub for platform engineering: IaC templates, Kubernetes guides, DevSecOps practices, and internal developer platform blueprints.**
 
 [![GitHub stars](https://img.shields.io/github/stars/codetocloudorg/platform-engineering?style=flat-square)](https://github.com/codetocloudorg/platform-engineering)
 [![GitHub forks](https://img.shields.io/github/forks/codetocloudorg/platform-engineering?style=flat-square)](https://github.com/codetocloudorg/platform-engineering/fork)
 [![GitHub issues](https://img.shields.io/github/issues/codetocloudorg/platform-engineering?style=flat-square)](https://github.com/codetocloudorg/platform-engineering/issues)
+[![GitHub last commit](https://img.shields.io/github/last-commit/codetocloudorg/platform-engineering?style=flat-square)](https://github.com/codetocloudorg/platform-engineering/commits/main)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
 [![Website](https://img.shields.io/badge/website-eng.codetocloud.io-blue?style=flat-square)](https://eng.codetocloud.io)
+[![Discord](https://img.shields.io/discord/1234567890?label=Discord&style=flat-square&color=5865F2)](https://discord.gg/vwfwq2EpXJ)
+[![Contributors](https://img.shields.io/github/contributors/codetocloudorg/platform-engineering?style=flat-square)](https://github.com/codetocloudorg/platform-engineering/graphs/contributors)
 
-[Website](https://eng.codetocloud.io) · [Getting Started](#-quick-start) · [Docs](docs/) · [Contributing](CONTRIBUTING.md)
+[Website](https://eng.codetocloud.io) · [Getting Started](#-quick-start) · [Docs](docs/) · [Contributing](CONTRIBUTING.md) · [Discord](https://discord.gg/vwfwq2EpXJ)
 
 </div>
 
@@ -130,6 +134,19 @@ Standardized frameworks for building scalable, secure IDPs with IaC, GitOps, Kub
 
 - [Certification Pathways](docs/certifications.md)
 - [Platform Engineering Landscape](docs/platform_engineering_landscape.md)
+- [Getting Started Guide](docs/GETTING_STARTED.md)
+- [FAQ](docs/FAQ.md)
+- [Glossary](docs/GLOSSARY.md)
+
+---
+
+## 📚 Guides & Comparisons
+
+- [Platform Engineering vs DevOps](docs/PLATFORM_ENGINEERING_VS_DEVOPS.md)
+- [IDP Comparison — Backstage vs Port vs Cortex](docs/IDP_COMPARISON.md)
+- [IaC Comparison — Terraform vs OpenTofu vs Bicep vs Pulumi](docs/IAC_COMPARISON.md)
+- [Architecture Guide](docs/ARCHITECTURE.md)
+- [Roadmap](docs/ROADMAP.md)
 
 ---
 

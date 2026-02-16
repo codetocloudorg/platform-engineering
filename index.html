@@ -3,8 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Platform Engineering | Code to Cloud</title>
-    <meta name="description" content="Platform Engineering resources, best practices, and automation tools for cloud-native environments and DevOps workflows.">
+    <title>Platform Engineering Hub — IaC, Kubernetes & Cloud-Native</title>
+    <meta name="description" content="Open-source platform engineering resources: IaC templates, Kubernetes guides, DevSecOps practices, cloud-native tools, and internal developer platform blueprints.">
+    <meta name="keywords" content="platform engineering, infrastructure as code, kubernetes, devops, devsecops, terraform, opentofu, bicep, backstage, internal developer platform, gitops, observability, cloud-native, ci cd, developer experience, pulumi, argocd, helm">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Platform Engineering Hub — IaC, Kubernetes & Cloud-Native Resources">
+    <meta property="og:description" content="Open-source resources, IaC templates, and automation tools for building scalable internal developer platforms with Terraform, Kubernetes, and DevSecOps.">
+    <meta property="og:image" content="https://github.com/codetocloudorg/artwork/blob/main/examples/images/current/code_to_cloud_1920_x_1080_desktop.png?raw=true">
+    <meta property="og:url" content="https://eng.codetocloud.io">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Code To Cloud">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Platform Engineering Hub — IaC, Kubernetes & Cloud-Native">
+    <meta name="twitter:description" content="Open-source resources, IaC templates, and automation tools for building scalable internal developer platforms.">
+    <meta name="twitter:image" content="https://github.com/codetocloudorg/artwork/blob/main/examples/images/current/code_to_cloud_1920_x_1080_desktop.png?raw=true">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://eng.codetocloud.io">
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Platform Engineering Hub",
+        "url": "https://eng.codetocloud.io",
+        "description": "Resources, best practices, and automation tools for building cloud-native internal developer platforms",
+        "publisher": {
+            "@type": "Organization",
+            "name": "Code To Cloud",
+            "url": "https://www.codetocloud.io"
+        },
+        "keywords": "platform engineering, infrastructure as code, kubernetes, devops, devsecops, internal developer platform"
+    }
+    </script>
+
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>">
     <style>
         :root {
@@ -444,6 +480,52 @@
             font-weight: 600;
             letter-spacing: 0.05em;
         }
+
+        /* FAQ Section */
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-item summary {
+            padding: 1.25rem 1.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.05rem;
+            color: var(--text-bright);
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-item summary::-webkit-details-marker { display: none; }
+
+        .faq-item summary::after {
+            content: '+';
+            font-size: 1.25rem;
+            color: var(--primary);
+            transition: transform 0.2s;
+        }
+
+        .faq-item[open] summary::after {
+            content: '−';
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem 1.25rem;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
     </style>
 </head>
 <body>
@@ -460,6 +542,7 @@
                 <li><a href="#features">Features</a></li>
                 <li><a href="#local-dev">Local Dev</a></li>
                 <li><a href="#tools">Tools</a></li>
+                <li><a href="#faq">FAQ</a></li>
                 <li><a href="https://discord.gg/vwfwq2EpXJ">Discord</a></li>
                 <li><a href="https://github.com/codetocloudorg/platform-engineering">GitHub</a></li>
             </ul>
@@ -620,6 +703,113 @@
             </div>
         </section>
     </main>
+
+    <!-- FAQ Section with FAQPage Schema -->
+    <section id="faq">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">FAQ</div>
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                <p class="section-subtitle">Common questions about platform engineering and this resource hub.</p>
+            </div>
+
+            <div class="faq-list">
+                <details class="faq-item">
+                    <summary>What is Platform Engineering?</summary>
+                    <div class="faq-answer">Platform Engineering is the discipline of designing and building self-service toolchains and workflows that enable software engineering organizations to be more productive. It builds on DevOps principles to provide internal developer platforms (IDPs) that abstract away infrastructure complexity, letting developers focus on delivering value.</div>
+                </details>
+                <details class="faq-item">
+                    <summary>How is Platform Engineering different from DevOps?</summary>
+                    <div class="faq-answer">While DevOps focuses on culture, practices, and breaking silos between development and operations, Platform Engineering takes it further by building dedicated internal platforms. Platform engineers create reusable, self-service tools and golden paths so that every developer doesn't need to be a DevOps expert—they get paved roads to production instead.</div>
+                </details>
+                <details class="faq-item">
+                    <summary>What tools and technologies are covered?</summary>
+                    <div class="faq-answer">This hub covers Infrastructure as Code (Terraform, OpenTofu, Bicep, Pulumi), Kubernetes, CI/CD (GitHub Actions, Dagger, ArgoCD), Internal Developer Platforms (Backstage, Port, Cortex), observability (Prometheus, Grafana), security and DevSecOps practices, GitOps workflows, and more.</div>
+                </details>
+                <details class="faq-item">
+                    <summary>Is this resource free and open-source?</summary>
+                    <div class="faq-answer">Yes! Everything here is completely free and open-source under the MIT License. We use only free, community, and open-source software. Contributions from the community are welcome and encouraged.</div>
+                </details>
+                <details class="faq-item">
+                    <summary>Who created this project?</summary>
+                    <div class="faq-answer">This project was created by Kevin Evans and the Code to Cloud community. What started as a personal learning journey has grown into a comprehensive resource for platform engineering teams worldwide.</div>
+                </details>
+                <details class="faq-item">
+                    <summary>What is an Internal Developer Platform (IDP)?</summary>
+                    <div class="faq-answer">An Internal Developer Platform (IDP) is a layer of tools and workflows built on top of your infrastructure that provides self-service capabilities to developers. IDPs like Backstage, Port, and Cortex give developers a single pane of glass to provision resources, deploy applications, and manage services without needing deep infrastructure knowledge.</div>
+                </details>
+                <details class="faq-item">
+                    <summary>Do I need Kubernetes knowledge to use this?</summary>
+                    <div class="faq-answer">Not necessarily. While Kubernetes is a major topic covered in this hub, the resources span many areas of platform engineering. Beginners can start with the getting started guides, IaC fundamentals, or CI/CD workflows and work their way up to Kubernetes and advanced topics as they grow.</div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is Platform Engineering?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Platform Engineering is the discipline of designing and building self-service toolchains and workflows that enable software engineering organizations to be more productive. It builds on DevOps principles to provide internal developer platforms (IDPs) that abstract away infrastructure complexity, letting developers focus on delivering value."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How is Platform Engineering different from DevOps?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "While DevOps focuses on culture, practices, and breaking silos between development and operations, Platform Engineering takes it further by building dedicated internal platforms. Platform engineers create reusable, self-service tools and golden paths so that every developer doesn't need to be a DevOps expert."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What tools and technologies are covered?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "This hub covers Infrastructure as Code (Terraform, OpenTofu, Bicep, Pulumi), Kubernetes, CI/CD (GitHub Actions, Dagger, ArgoCD), Internal Developer Platforms (Backstage, Port, Cortex), observability (Prometheus, Grafana), security and DevSecOps practices, GitOps workflows, and more."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Is this resource free and open-source?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes! Everything here is completely free and open-source under the MIT License. We use only free, community, and open-source software. Contributions from the community are welcome and encouraged."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Who created this project?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "This project was created by Kevin Evans and the Code to Cloud community. What started as a personal learning journey has grown into a comprehensive resource for platform engineering teams worldwide."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is an Internal Developer Platform (IDP)?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "An Internal Developer Platform (IDP) is a layer of tools and workflows built on top of your infrastructure that provides self-service capabilities to developers. IDPs like Backstage, Port, and Cortex give developers a single pane of glass to provision resources, deploy applications, and manage services without needing deep infrastructure knowledge."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Do I need Kubernetes knowledge to use this?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Not necessarily. While Kubernetes is a major topic covered in this hub, the resources span many areas of platform engineering. Beginners can start with the getting started guides, IaC fundamentals, or CI/CD workflows and work their way up to Kubernetes and advanced topics as they grow."
+                }
+            }
+        ]
+    }
+    </script>
 
     <footer>
         <div class="container">
